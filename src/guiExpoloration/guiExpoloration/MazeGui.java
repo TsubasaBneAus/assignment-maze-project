@@ -47,16 +47,19 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 size[0] = Integer.parseInt(text1ForInput.getText());
                 size[1] = Integer.parseInt(text2ForInput.getText());
                 panelOnTheLeft.removeAll();
-                CreateSelectionButtons(frame, panelOnTheLeft, size);
+
                 if (size[0]>10||size[1]>10){
-                    JOptionPane.showMessageDialog(buttonForInput,"Too big",
+                    JOptionPane.showMessageDialog(buttonForInput,"Not valid value",
                             "Invalid Input", JOptionPane.ERROR_MESSAGE);
                     size[0]=10;
                     size[1]=10;
                 } else if (size[0] == 0 || size[1] == 0) {
                     JOptionPane.showMessageDialog(buttonForInput, "The Column Size or Row Size cannot be zero!",
                             "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    size[0]=10;
+                    size[1]=10;
                 }
+                CreateSelectionButtons(frame, panelOnTheLeft, size);
                 panelOnTheLeft.revalidate();
                 panelOnTheLeft.repaint();
                 
@@ -123,8 +126,8 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 
-    public static
-    void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size) {
+
+        public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size) {
         // The only action handler you need
 //        class Actions implements ActionListener {
 //            public void actionPerformed(ActionEvent e) {
@@ -140,34 +143,46 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //                Actions myActionHandler = new Actions();
 //
 //            }}
+            class Actions implements ActionListener {
+                public void actionPerformed(ActionEvent e) {
+                    // Get the button that was clicked
+                    JButton theButton = (JButton) e.getSource();
+                    // Set it's background color to white
+                    Color color = theButton.getBackground();
+                    if (color==Color.black)
+                    {
+                        theButton.setBackground(Color.white);}
+                    else{theButton.setBackground(Color.black);
+                    }
+                }}
+            JPanel panelForButtons = new JPanel();
+            int buttonNum = size[0] * size[1];
+            panelForButtons.setLayout(new GridLayout(size[0], size[1]));
 
-        JPanel panelForButtons = new JPanel();
-        int buttonNum = size[0] * size[1];
-        panelForButtons.setLayout(new GridLayout(size[0], size[1]));
+            JButton[] buttons = new JButton[buttonNum];
+            buttonsArray = buttons;
 
-        JButton[] buttons = new JButton[buttonNum];
-        buttonsArray = buttons;
+// The only action handler you need
+            Actions myActionHandler = new Actions();
+
+            for (int i = 0; i < buttonNum; i++) {
+                buttons[i] = new JButton();
+
+                // Change each button size
+                buttons[i].setPreferredSize(new Dimension(50, 50));
+                buttons[i].setBackground(Color.black);
+
+                // Just pass in the one we already have from above
+                buttons[i].addActionListener(myActionHandler);
+
+                panelForButtons.add(buttons[i]);
+            }
+
+            panelOnTheLeft.add(panelForButtons, BorderLayout.WEST);
 
 
-        for (int i = 0; i < buttonNum; i++) {
-            buttons[i] = new JButton();
-            buttons[i].setBackground(Color.WHITE);
-	    buttons[i].addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			JButton btn = (JButton)e.getSource();
-			btn.setBackground(Color.YELLOW);
-		}
-	    });
 
-
-
-//            Change each button size
-           buttons[i].setPreferredSize(new Dimension(50, 50));
-            panelForButtons.add(buttons[i]);
         }
-        panelOnTheLeft.add(panelForButtons, BorderLayout.WEST);
-
-    }
 
     public static void main(String[] args) {
      JFrame frame = new JFrame("Maze Builder");
