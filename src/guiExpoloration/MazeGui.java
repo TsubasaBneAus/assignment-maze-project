@@ -1,8 +1,12 @@
 package guiExpoloration;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class MazeGui extends JFrame implements ActionListener, MouseListener {
@@ -57,6 +61,32 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 panelOnTheLeft.repaint();
                 
                
+            }
+        });
+        buttonExport.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+/*
+                Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+                System.out.println("File name: ");
+
+                String imageName = myObj.nextLine();  // Read user input
+**/
+
+                try {
+                    Robot robot = new Robot();
+                    String format = "jpg";
+                    String fileName = "Screenshot." + format;
+
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height/2);
+                    BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+                    ImageIO.write(screenFullImage, format, new File(fileName));
+
+                    System.out.println("A screenshot has been saved");
+                } catch (AWTException | IOException ex) {
+                    System.err.println(ex);
+                }
             }
         });
 
