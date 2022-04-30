@@ -42,6 +42,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JScrollBar scrollBar = new JScrollBar();
 
         buttonForInput.addActionListener(new ActionListener() {
+            //https://stackoverflow.com/questions/71934491/java-jbutton-clicked
             public void actionPerformed(ActionEvent e) {
 
                 size[0] = Integer.parseInt(text1ForInput.getText());
