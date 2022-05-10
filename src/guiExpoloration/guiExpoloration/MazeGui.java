@@ -27,6 +27,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
         JButton buttonForInput = new JButton("Submit");
         buttonForInput.setBounds(50, 50, 100, 100);
+
         JButton buttonGenerate = new JButton("Generate");
         buttonGenerate.setBounds(50, 50, 100, 100);
         JButton buttonExport = new JButton("Export");
@@ -37,6 +38,12 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         buttonUpload.setBounds(50, 50, 100, 100);
         JButton buttonTest = new JButton("Reset");
         buttonTest.setBounds(50,50,100,100);
+        JButton start = new JButton("start block");
+       start.setBounds(50, 50, 100, 100);
+       start.setBackground(Color.lightGray);
+        JButton end = new JButton("end block");
+        end.setBounds(50, 50, 100, 100);
+        end.setBackground(Color.lightGray);
         JPanel panelForRows = new JPanel();
         JPanel panelForColumns = new JPanel();
         JScrollBar scrollBar = new JScrollBar();
@@ -66,6 +73,45 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 
                
             }
+        });
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+// Get the button that was clicked
+                JButton theButton = (JButton) e.getSource();
+                // Set it's background color to white
+                Color color = theButton.getBackground();
+                if (color==Color.lightGray)
+                {
+                    if(start.getBackground()==Color.green){
+                        JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                                "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+
+
+                    }else{
+                    theButton.setBackground(Color.green);}}
+                else{theButton.setBackground(Color.lightGray);
+                }}
+            });
+        end.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+// Get the button that was clicked
+                JButton theButton = (JButton) e.getSource();
+                // Set it's background color to white
+                Color color = theButton.getBackground();
+
+                if (color==Color.lightGray)
+                {
+                    if(start.getBackground()==Color.green){
+                        JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                                "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+
+
+                    }else{
+                    theButton.setBackground(Color.red);}}
+                else{theButton.setBackground(Color.lightGray);
+                }}
         });
         buttonExport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -115,6 +161,8 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         panelOnTheRight.add(buttonForInput);
         panelOnTheRight.add(buttonGenerate);
         panelOnTheRight.add(buttonExport);
+        panelOnTheRight.add(start);
+        panelOnTheRight.add(end);
         panelOnTheRight.add(buttonReset);
         panelOnTheRight.add(buttonUpload);
 
@@ -143,7 +191,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //                }
 //                Actions myActionHandler = new Actions();
 //
-//            }}
+//
             class Actions implements ActionListener {
                 public void actionPerformed(ActionEvent e) {
                     // Get the button that was clicked
