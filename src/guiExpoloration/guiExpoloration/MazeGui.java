@@ -67,9 +67,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                     size[0]=10;
                     size[1]=10;
                 }
-                CreateSelectionButtons(frame, panelOnTheLeft, size);
-                panelOnTheLeft.revalidate();
-                panelOnTheLeft.repaint();
+
                 
                
             }
@@ -151,6 +149,9 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //            }
 //        });
 
+        CreateSelectionButtons(frame, panelOnTheLeft, size);
+        panelOnTheLeft.revalidate();
+        panelOnTheLeft.repaint();
         panelOnTheRight.setLayout(new GridLayout(10, 1));
         panelForRows.add(label1ForInput);
         panelForRows.add(text1ForInput);
@@ -176,6 +177,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 
+
         public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size) {
         // The only action handler you need
 //        class Actions implements ActionListener {
@@ -192,24 +194,47 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //                Actions myActionHandler = new Actions();
 //
 //
+            JPanel panelForButtons = new JPanel();
+            int buttonNum = size[0] * size[1];
+            panelForButtons.setLayout(new GridLayout(size[0], size[1]));
+            JButton[] buttons = new JButton[buttonNum];
+            buttonsArray = buttons;
             class Actions implements ActionListener {
                 public void actionPerformed(ActionEvent e) {
                     // Get the button that was clicked
                     JButton theButton = (JButton) e.getSource();
+                    Color first=start.getBackground();
+                    Color second=end.getBackground();
                     // Set it's background color to white
                     Color color = theButton.getBackground();
-                    if (color==Color.black)
+                    if(first==Color.green){
+                        for(int i=0;i<=buttonNum;i++){
+                            Color check=buttons[i].getBackground();
+                            if(check==Color.green){
+                                buttons[i].setBackground(Color.white);
+
+                            }
+                        }
+                        theButton.setBackground(Color.green);}
+                    else if(second==Color.red){
+                        for(int i=0;i<=buttonNum;i++){
+                            Color check=buttons[i].getBackground();
+                            if(check==Color.red){
+                                buttons[i].setBackground(Color.white);
+
+                            }
+                        }
+                        theButton.setBackground(Color.red);}
+                    else if (color==Color.black)
                     {
                         theButton.setBackground(Color.white);}
                     else{theButton.setBackground(Color.black);
                     }
-                }}
-            JPanel panelForButtons = new JPanel();
-            int buttonNum = size[0] * size[1];
-            panelForButtons.setLayout(new GridLayout(size[0], size[1]));
 
-            JButton[] buttons = new JButton[buttonNum];
-            buttonsArray = buttons;
+                }}
+
+
+
 
 // The only action handler you need
             Actions myActionHandler = new Actions();
@@ -238,9 +263,11 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
      frame.setSize(1440, 1220);
         JPanel panelOnTheLeft = new JPanel();
         JPanel panelOnTheRight = new JPanel();
+        JButton start=new JButton();
+
 
    frame.setLayout(new BorderLayout());
-     CreateSelectionButtons(frame, panelOnTheLeft,  defaultSize);
+     CreateSelectionButtons(frame, panelOnTheLeft,defaultSize);
      CreateInputSection(frame, panelOnTheLeft, panelOnTheRight);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
