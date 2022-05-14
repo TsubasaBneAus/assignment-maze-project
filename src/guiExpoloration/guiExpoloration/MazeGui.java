@@ -38,10 +38,10 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         buttonUpload.setBounds(50, 50, 100, 100);
         JButton buttonTest = new JButton("Reset");
         buttonTest.setBounds(50,50,100,100);
-        JButton start = new JButton("start block");
+        JToggleButton start = new JToggleButton("start block");
        start.setBounds(50, 50, 100, 100);
-       start.setBackground(Color.lightGray);
-        JButton end = new JButton("end block");
+
+        JToggleButton end = new JToggleButton("end block");
         end.setBounds(50, 50, 100, 100);
         end.setBackground(Color.lightGray);
         JPanel panelForRows = new JPanel();
@@ -76,41 +76,21 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 // Get the button that was clicked
-                JButton theButton = (JButton) e.getSource();
-                // Set it's background color to white
-                Color color = theButton.getBackground();
-                if (color==Color.lightGray)
-                {
-                    if(start.getBackground()==Color.green){
-                        JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
-                                "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                if(end.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);}
 
-
-                    }else{
-                    theButton.setBackground(Color.green);}}
-                else{theButton.setBackground(Color.lightGray);
-                }}
-            });
+            }});
         end.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 // Get the button that was clicked
-                JButton theButton = (JButton) e.getSource();
-                // Set it's background color to white
-                Color color = theButton.getBackground();
+                if(start.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);}
+        }});
 
-                if (color==Color.lightGray)
-                {
-                    if(start.getBackground()==Color.green){
-                        JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
-                                "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-
-
-                    }else{
-                    theButton.setBackground(Color.red);}}
-                else{theButton.setBackground(Color.lightGray);
-                }}
-        });
+        CreateSelectionButtons(frame, panelOnTheLeft, size, start,end);
+        panelOnTheLeft.revalidate();
+        panelOnTheLeft.repaint();
         buttonExport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -149,9 +129,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //            }
 //        });
 
-        CreateSelectionButtons(frame, panelOnTheLeft, size);
-        panelOnTheLeft.revalidate();
-        panelOnTheLeft.repaint();
+
         panelOnTheRight.setLayout(new GridLayout(10, 1));
         panelForRows.add(label1ForInput);
         panelForRows.add(text1ForInput);
@@ -178,7 +156,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 
-        public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size) {
+        public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size, AbstractButton start, AbstractButton end) {
         // The only action handler you need
 //        class Actions implements ActionListener {
 //            public void actionPerformed(ActionEvent e) {
@@ -203,11 +181,10 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 public void actionPerformed(ActionEvent e) {
                     // Get the button that was clicked
                     JButton theButton = (JButton) e.getSource();
-                    Color first=start.getBackground();
-                    Color second=end.getBackground();
+
                     // Set it's background color to white
                     Color color = theButton.getBackground();
-                    if(first==Color.green){
+                    if(start.isSelected()){
                         for(int i=0;i<=buttonNum;i++){
                             Color check=buttons[i].getBackground();
                             if(check==Color.green){
@@ -216,7 +193,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                             }
                         }
                         theButton.setBackground(Color.green);}
-                    else if(second==Color.red){
+                    else if(end.isSelected()){
                         for(int i=0;i<=buttonNum;i++){
                             Color check=buttons[i].getBackground();
                             if(check==Color.red){
@@ -237,6 +214,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 // The only action handler you need
+            int[] defaultSize = {10, 10};
             Actions myActionHandler = new Actions();
 
             for (int i = 0; i < buttonNum; i++) {
@@ -267,7 +245,9 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
    frame.setLayout(new BorderLayout());
-     CreateSelectionButtons(frame, panelOnTheLeft,defaultSize);
+        int[] defaultSize = {10, 10};
+        AbstractButton end = null;
+        CreateSelectionButtons(frame, panelOnTheLeft,defaultSize, start, null);
      CreateInputSection(frame, panelOnTheLeft, panelOnTheRight);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
