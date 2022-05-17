@@ -16,7 +16,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 
-    public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight) {
+    public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight, JToggleButton start, JToggleButton end) {
         int[] size = new int[10];
 
         JLabel label1ForInput = new JLabel("Rows:");
@@ -38,46 +38,19 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         buttonUpload.setBounds(50, 50, 100, 100);
         JButton buttonTest = new JButton("Reset");
         buttonTest.setBounds(50,50,100,100);
-        JToggleButton start = new JToggleButton("start block");
-       start.setBounds(50, 50, 100, 100);
 
-        JToggleButton end = new JToggleButton("end block");
-        end.setBounds(50, 50, 100, 100);
-        end.setBackground(Color.lightGray);
+            
         JPanel panelForRows = new JPanel();
         JPanel panelForColumns = new JPanel();
         JScrollBar scrollBar = new JScrollBar();
 
-        buttonForInput.addActionListener(new ActionListener() {
-            //https://stackoverflow.com/questions/71934491/java-jbutton-clicked
-            public void actionPerformed(ActionEvent e) {
-
-                size[0] = Integer.parseInt(text1ForInput.getText());
-                size[1] = Integer.parseInt(text2ForInput.getText());
-                panelOnTheLeft.removeAll();
-
-                if (size[0]>10||size[1]>10){
-                    JOptionPane.showMessageDialog(buttonForInput,"Not valid value",
-                            "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                    size[0]=10;
-                    size[1]=10;
-                } else if (size[0] == 0 || size[1] == 0) {
-                    JOptionPane.showMessageDialog(buttonForInput, "The Column Size or Row Size cannot be zero!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    size[0]=10;
-                    size[1]=10;
-                }
-
-                
-               
-            }
-        });
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 // Get the button that was clicked
                 if(end.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
-                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);}
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    start.setSelected(false);}
 
             }});
         end.addActionListener(new ActionListener() {
@@ -85,12 +58,27 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             public void actionPerformed(ActionEvent e) {
 // Get the button that was clicked
                 if(start.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
-                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);}
-        }});
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    end.setSelected(false);}
+            }});
 
-        CreateSelectionButtons(frame, panelOnTheLeft, size, start,end);
-        panelOnTheLeft.revalidate();
-        panelOnTheLeft.repaint();
+        buttonForInput.addActionListener(new ActionListener() {
+                                             public void actionPerformed(ActionEvent e) {
+                                                 size[0] = Integer.parseInt(text1ForInput.getText());
+                                                 size[1] = Integer.parseInt(text2ForInput.getText());
+                                                 panelOnTheLeft.removeAll();
+                                                 if (size[0]>10||size[1]>10){
+                                                     JOptionPane.showMessageDialog(buttonForInput,"Too big",
+                                                             "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
+                                                     size[0]=10;
+                                                     size[1]=10;
+                                                 }
+                                                 CreateSelectionButtons(frame, panelOnTheLeft, size, end,start);
+                                                 panelOnTheLeft.revalidate();
+                                                 panelOnTheLeft.repaint();
+                                             }
+                                         }
+        );
         buttonExport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -185,7 +173,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                     // Set it's background color to white
                     Color color = theButton.getBackground();
                     if(start.isSelected()){
-                        for(int i=0;i<=buttonNum;i++){
+                        for(int i=0;i<buttonNum;i++){
                             Color check=buttons[i].getBackground();
                             if(check==Color.green){
                                 buttons[i].setBackground(Color.white);
@@ -194,7 +182,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                         }
                         theButton.setBackground(Color.green);}
                     else if(end.isSelected()){
-                        for(int i=0;i<=buttonNum;i++){
+                        for(int i=0;i<buttonNum;i++){
                             Color check=buttons[i].getBackground();
                             if(check==Color.red){
                                 buttons[i].setBackground(Color.white);
@@ -241,14 +229,17 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
      frame.setSize(1440, 1220);
         JPanel panelOnTheLeft = new JPanel();
         JPanel panelOnTheRight = new JPanel();
-        JButton start=new JButton();
+        JToggleButton start = new JToggleButton("start block");
+        start.setBounds(50, 50, 100, 100);
+
+        JToggleButton end = new JToggleButton("end block");
+        end.setBounds(50, 50, 100, 100);
 
 
    frame.setLayout(new BorderLayout());
         int[] defaultSize = {10, 10};
-        AbstractButton end = null;
-        CreateSelectionButtons(frame, panelOnTheLeft,defaultSize, start, null);
-     CreateInputSection(frame, panelOnTheLeft, panelOnTheRight);
+        CreateSelectionButtons(frame, panelOnTheLeft,defaultSize, start,end);
+     CreateInputSection(frame, panelOnTheLeft, panelOnTheRight,start,end);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
 

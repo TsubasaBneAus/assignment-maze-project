@@ -3,7 +3,6 @@ package guiExpoloration;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 public class Main {
 
@@ -20,7 +19,29 @@ public class Main {
 
         JButton buttonForInput = new JButton("Submit");
         JPanel panelForRows = new JPanel();
+        JToggleButton start = new JToggleButton("start block");
+        start.setBounds(50, 50, 100, 100);
+
+        JToggleButton end = new JToggleButton("end block");
+        end.setBounds(50, 50, 100, 100);
         JPanel panelForColumns = new JPanel();
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+// Get the button that was clicked
+                if(end.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    start.setSelected(false);}
+
+            }});
+        end.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+// Get the button that was clicked
+                if(start.isSelected()){JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                end.setSelected(false);}
+            }});
 
             buttonForInput.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -33,7 +54,7 @@ public class Main {
                         size[0]=10;
                         size[1]=10;
                     }
-                CreateSelectionButtons(frame, panelOnTheLeft, size);
+                CreateSelectionButtons(frame, panelOnTheLeft, size, end,start);
                 panelOnTheLeft.revalidate();
                 panelOnTheLeft.repaint();
             }
@@ -49,27 +70,52 @@ public class Main {
         panelOnTheRight.add(panelForRows);
         panelOnTheRight.add(panelForColumns);
         panelOnTheRight.add(buttonForInput);
+        panelOnTheRight.add(start);
+        panelOnTheRight.add(end);
     }
 
 
-    public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size) {
+    public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size, AbstractButton end,AbstractButton start) {
+        int buttonNum = size[0] * size[1];
+        JButton[] buttons = new JButton[buttonNum];
         class Actions implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 // Get the button that was clicked
                 JButton theButton = (JButton) e.getSource();
+
                 // Set it's background color to white
                 Color color = theButton.getBackground();
-                if (color==Color.black)
+                if(start.isSelected()){
+                    for(int i=0;i<=buttonNum;i++){
+                        Color check=buttons[i].getBackground();
+                        if(check==Color.green){
+                            buttons[i].setBackground(Color.white);
+
+                        }
+                    }
+                    theButton.setBackground(Color.green);}
+                else if(end.isSelected()){
+                    for(int i=0;i<=buttonNum;i++){
+                        Color check=buttons[i].getBackground();
+                        if(check==Color.red){
+                            buttons[i].setBackground(Color.white);
+
+                        }
+                    }
+                    theButton.setBackground(Color.red);}
+                else if (color==Color.black)
                 {
-                theButton.setBackground(Color.white);}
+                    theButton.setBackground(Color.white);}
                 else{theButton.setBackground(Color.black);
-            }
-        }}
+                }
+
+            }}
+
         JPanel panelForButtons = new JPanel();
-        int buttonNum = size[0] * size[1];
+
         panelForButtons.setLayout(new GridLayout(size[0], size[1]));
 
-        JButton[] buttons = new JButton[buttonNum];
+
         buttonsArray = buttons;
 
 // The only action handler you need
@@ -100,7 +146,7 @@ public class Main {
             JPanel panelOnTheRight = new JPanel();
 
             frame.setLayout(new BorderLayout());
-            CreateSelectionButtons(frame, panelOnTheLeft, defaultSize);
+            CreateSelectionButtons(frame, panelOnTheLeft, defaultSize, null,null);
             CreateInputSection(frame, panelOnTheLeft, panelOnTheRight);
             frame.add(panelOnTheLeft, BorderLayout.WEST);
             frame.add(panelOnTheRight, BorderLayout.EAST);
