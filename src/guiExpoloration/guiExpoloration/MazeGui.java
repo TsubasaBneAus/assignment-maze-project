@@ -28,6 +28,8 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JButton buttonForInput = new JButton("Submit");
         buttonForInput.setBounds(50, 50, 100, 100);
 
+        JButton buttonRandom = new JButton("Random");
+        buttonRandom.setBounds(50, 50, 100, 100);
         JButton buttonGenerate = new JButton("Generate");
         buttonGenerate.setBounds(50, 50, 100, 100);
         JButton buttonExport = new JButton("Export");
@@ -43,6 +45,14 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JPanel panelForRows = new JPanel();
         JPanel panelForColumns = new JPanel();
         JScrollBar scrollBar = new JScrollBar();
+
+        // Generate a maze randomly
+        buttonRandom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         start.addActionListener(new ActionListener() {
             @Override
@@ -126,6 +136,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         panelOnTheRight.add(panelForRows);
         panelOnTheRight.add(panelForColumns);
         panelOnTheRight.add(buttonForInput);
+        panelOnTheRight.add(buttonRandom);
         panelOnTheRight.add(buttonGenerate);
         panelOnTheRight.add(buttonExport);
         panelOnTheRight.add(start);
