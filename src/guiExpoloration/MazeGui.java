@@ -13,21 +13,24 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
     private static final int[] defaultSize = {10, 10};
 
-    public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight, JToggleButton start, JToggleButton end) {
+    public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight, JToggleButton start, JToggleButton end, String[] Location, JToggleButton buttonUpload) {
         int[] size = new int[10];
+
 
         JLabel label1ForInput = new JLabel("Rows:");
         JLabel label2ForInput = new JLabel("Columns:");
+        JLabel locationphoto = new JLabel("location:");
 
         JTextField text1ForInput = new JTextField(5);
         JTextField text2ForInput = new JTextField(5);
+        JTextField photoinput = new JTextField(5);
 
         JButton buttonForInput = new JButton("Submit");
         JButton buttonRandom = new JButton("Random");
         JButton buttonGenerate = new JButton("Generate");
         JButton buttonExport = new JButton("Export");
         JButton buttonReset = new JButton("Reset");
-        JButton buttonUpload = new JButton("Upload");
+
         JButton buttonTest = new JButton("Reset");
 
         buttonForInput.setBounds(50, 50, 100, 100);
@@ -35,7 +38,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         buttonGenerate.setBounds(50, 50, 100, 100);
         buttonExport.setBounds(50, 50, 100, 100);
         buttonReset.setBounds(50, 50, 100, 100);
-        buttonUpload.setBounds(50, 50, 100, 100);
+
         buttonTest.setBounds(50, 50, 100, 100);
 
         JPanel panelForRows = new JPanel();
@@ -54,6 +57,25 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 randomMaze.setVisible(true);
             }
         });
+        buttonUpload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (end.isSelected()) {
+                    JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    buttonUpload.setSelected(false);
+
+                }   else if (start.isSelected()) {
+                    JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    buttonUpload.setSelected(false);
+
+                }else{ {
+                    Location[0] = photoinput.getText();}
+
+            }}
+        });
 
         start.addActionListener(new ActionListener() {
             @Override
@@ -61,6 +83,11 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 // Get the button that was clicked
                 if (end.isSelected()) {
                     JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    start.setSelected(false);
+                }
+                else if (buttonUpload.isSelected()){
+                    JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
                             "Invalid Input!", JOptionPane.ERROR_MESSAGE);
                     start.setSelected(false);
                 }
@@ -73,6 +100,12 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 // Get the button that was clicked
                 if (start.isSelected()) {
                     JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                    end.setSelected(false);
+
+                }
+                else if (buttonUpload.isSelected()){
+                    JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
                             "Invalid Input!", JOptionPane.ERROR_MESSAGE);
                     end.setSelected(false);
                 }
@@ -90,7 +123,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                     size[0] = 10;
                     size[1] = 10;
                 }
-                CreateSelectionButtons(frame, panelOnTheLeft, size, end, start);
+                CreateSelectionButtons(frame, panelOnTheLeft, size, end, start,Location,buttonUpload);
                 panelOnTheLeft.revalidate();
                 panelOnTheLeft.repaint();
             }
@@ -148,6 +181,9 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         panelOnTheRight.add(end);
         panelOnTheRight.add(buttonReset);
         panelOnTheRight.add(buttonUpload);
+        panelOnTheRight.add(locationphoto);
+        panelOnTheRight.add(photoinput);
+
 
     }
 //    public static void JScrollBar(){
@@ -156,7 +192,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 //    }
 
 
-    public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size, AbstractButton start, AbstractButton end) {
+    public static void CreateSelectionButtons(JFrame frame, JPanel panelOnTheLeft, int[] size, AbstractButton start, AbstractButton end, String[] location, JToggleButton buttonUpload) {
         // The only action handler you need
 //        class Actions implements ActionListener {
 //            public void actionPerformed(ActionEvent e) {
@@ -184,7 +220,11 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
                 // Set it's background color to white
                 Color color = theButton.getBackground();
-                if (start.isSelected()) {
+                if(buttonUpload.isSelected()) {
+                    ImageIcon icon = new ImageIcon(location[0]);
+                    theButton.setIcon(icon);
+                    buttonUpload.setSelected(false);
+                }else if (start.isSelected()) {
                     for (int i = 0; i < buttonNum; i++) {
                         Color check = buttons[i].getBackground();
                         if (check == Color.green) {
@@ -239,14 +279,15 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JPanel panelOnTheRight = new JPanel();
         JToggleButton start = new JToggleButton("start block");
         start.setBounds(50, 50, 100, 100);
-
+        final String[] Location = new String[1];
         JToggleButton end = new JToggleButton("end block");
         end.setBounds(50, 50, 100, 100);
-
+        JToggleButton buttonUpload = new JToggleButton("Upload");
+        buttonUpload.setBounds(50, 50, 100, 100);
         frame.setLayout(new BorderLayout());
         int[] defaultSize = {10, 10};
-        CreateSelectionButtons(frame, panelOnTheLeft, defaultSize, start, end);
-        CreateInputSection(frame, panelOnTheLeft, panelOnTheRight, start, end);
+        CreateSelectionButtons(frame, panelOnTheLeft, defaultSize, start, end, Location, buttonUpload);
+        CreateInputSection(frame, panelOnTheLeft, panelOnTheRight, start, end, Location,buttonUpload);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
