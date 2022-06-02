@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
-    private static final int[] defaultSize = {10, 10};
+    private static int[] defaultSize = {10, 10};
 
     public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight, JToggleButton start, JToggleButton end, String[] Location, JToggleButton buttonUpload) {
         int[] size = new int[10];
@@ -45,113 +45,107 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JPanel panelForColumns = new JPanel();
         JScrollBar scrollBar = new JScrollBar();
 
-        // Generate a maze randomly
-        buttonRandom.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame randomMaze = new JFrame("Random Maze");
-                RandomGeneration randGen = new RandomGeneration();
-                randomMaze.add(randGen.printMaze());
-                randomMaze.setSize(800, 800);
-//                randomMaze.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                randomMaze.setVisible(true);
-            }
-        });
-        buttonUpload.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        Object[] arrayForDifferentDataTypes = new Object[3];
 
-                if (end.isSelected()) {
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    buttonUpload.setSelected(false);
-
-                }   else if (start.isSelected()) {
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    buttonUpload.setSelected(false);
-
-                }else{ {
-                    Location[0] = photoinput.getText();}
-
-            }}
+        // Generate a random maze
+        buttonRandom.addActionListener(e -> {
+            JFrame randomMaze = new JFrame("Random Maze");
+            RandomGeneration randGen = new RandomGeneration();
+            arrayForDifferentDataTypes[0] = randGen.getRows();
+            arrayForDifferentDataTypes[1] = randGen.getColumns();
+            arrayForDifferentDataTypes[2] = randGen.getMazeArray();
+            PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray());
+            randomMaze.add(printMaze);
+            randomMaze.setSize(625, 650);
+            randomMaze.setVisible(true);
         });
 
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the button that was clicked
-                if (end.isSelected()) {
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    start.setSelected(false);
-                }
-                else if (buttonUpload.isSelected()){
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    start.setSelected(false);
+        buttonUpload.addActionListener(e -> {
+
+            if (end.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                buttonUpload.setSelected(false);
+
+            } else if (start.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                buttonUpload.setSelected(false);
+
+            } else {
+                {
+                    Location[0] = photoinput.getText();
                 }
 
             }
         });
-        end.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the button that was clicked
-                if (start.isSelected()) {
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    end.setSelected(false);
 
-                }
-                else if (buttonUpload.isSelected()){
-                    JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
-                            "Invalid Input!", JOptionPane.ERROR_MESSAGE);
-                    end.setSelected(false);
-                }
+        start.addActionListener(e -> {
+            // Get the button that was clicked
+            if (end.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the end function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                start.setSelected(false);
+            } else if (buttonUpload.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                start.setSelected(false);
+            }
+
+        });
+        end.addActionListener(e -> {
+            // Get the button that was clicked
+            if (start.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the start function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                end.setSelected(false);
+
+            } else if (buttonUpload.isSelected()) {
+                JOptionPane.showMessageDialog(buttonForInput, "please stop the upload function first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                end.setSelected(false);
             }
         });
 
-        buttonForInput.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                size[0] = Integer.parseInt(text1ForInput.getText());
-                size[1] = Integer.parseInt(text2ForInput.getText());
-                panelOnTheLeft.removeAll();
-                if (size[0] > 10 || size[1] > 10) {
-                    JOptionPane.showMessageDialog(buttonForInput, "Too big",
-                            "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
-                    size[0] = 10;
-                    size[1] = 10;
-                }
-                CreateSelectionButtons(frame, panelOnTheLeft, size, end, start,Location,buttonUpload);
-                panelOnTheLeft.revalidate();
-                panelOnTheLeft.repaint();
+        buttonForInput.addActionListener(e -> {
+            size[0] = Integer.parseInt(text1ForInput.getText());
+            size[1] = Integer.parseInt(text2ForInput.getText());
+            panelOnTheLeft.removeAll();
+            if (size[0] > 10 || size[1] > 10) {
+                JOptionPane.showMessageDialog(buttonForInput, "Too big",
+                        "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
+                size[0] = 10;
+                size[1] = 10;
             }
+            CreateSelectionButtons(frame, panelOnTheLeft, size, end, start, Location, buttonUpload);
+            panelOnTheLeft.revalidate();
+            panelOnTheLeft.repaint();
         });
 
-        buttonExport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-/*
-                Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-                System.out.println("File name: ");
+        buttonExport.addActionListener(e -> {
+            int rows = (int) arrayForDifferentDataTypes[0];
+            int columns = (int) arrayForDifferentDataTypes[1];
+            int[][] mazeArray = (int[][]) arrayForDifferentDataTypes[2];
+            new ExportImage(rows, columns, mazeArray);
 
-                String imageName = myObj.nextLine();  // Read user input
-**/
-                try {
-                    Robot robot = new Robot();
-                    String format = "jpg";
-                    String fileName = "Screenshot." + format;
-
-                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                    Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
-                    BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
-                    ImageIO.write(screenFullImage, format, new File(fileName));
-
-                    System.out.println("A screenshot has been saved");
-                } catch (AWTException | IOException ex) {
-                    System.err.println(ex);
-                }
-            }
+//                Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//                System.out.println("File name: ");
+//
+//                String imageName = myObj.nextLine();  // Read user input
+//                try {
+//                    Robot robot = new Robot();
+//                    String format = "jpg";
+//                    String fileName = "Screenshot." + format;
+//
+//                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//                    Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
+//                    BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+//                    ImageIO.write(screenFullImage, format, new File(fileName));
+//
+//                    System.out.println("A screenshot has been saved");
+//                } catch (AWTException | IOException ex) {
+//                    System.err.println(ex);
+//                }
         });
 
 //        buttonReset.addActionListener(new ActionListener() {
@@ -220,11 +214,11 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
                 // Set it's background color to white
                 Color color = theButton.getBackground();
-                if(buttonUpload.isSelected()) {
+                if (buttonUpload.isSelected()) {
                     ImageIcon icon = new ImageIcon(location[0]);
                     theButton.setIcon(icon);
                     buttonUpload.setSelected(false);
-                }else if (start.isSelected()) {
+                } else if (start.isSelected()) {
                     for (int i = 0; i < buttonNum; i++) {
                         Color check = buttons[i].getBackground();
                         if (check == Color.green) {
@@ -253,7 +247,6 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
 
 
 // The only action handler you need
-        int[] defaultSize = {10, 10};
         Actions myActionHandler = new Actions();
 
         for (int i = 0; i < buttonNum; i++) {
@@ -285,9 +278,8 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JToggleButton buttonUpload = new JToggleButton("Upload");
         buttonUpload.setBounds(50, 50, 100, 100);
         frame.setLayout(new BorderLayout());
-        int[] defaultSize = {10, 10};
         CreateSelectionButtons(frame, panelOnTheLeft, defaultSize, start, end, Location, buttonUpload);
-        CreateInputSection(frame, panelOnTheLeft, panelOnTheRight, start, end, Location,buttonUpload);
+        CreateInputSection(frame, panelOnTheLeft, panelOnTheRight, start, end, Location, buttonUpload);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

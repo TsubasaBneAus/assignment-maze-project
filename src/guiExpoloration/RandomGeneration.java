@@ -1,9 +1,9 @@
 package guiExpoloration;
 
-import javax.swing.*;
 import java.util.Random;
 import java.util.Stack;
 
+// This class is used for generating a random maze.
 public class RandomGeneration {
     private static final int rows = 30;
     private static final int columns = 30;
@@ -17,10 +17,20 @@ public class RandomGeneration {
     private static final int goalRow = rows - 1;
     private static final int goalColumn = columns - 2;
 
-    public PrintMaze printMaze() {
+    public RandomGeneration() {
         createMaze();
-        PrintMaze printedMaze = new PrintMaze(rows, columns, mazeArray);
-        return printedMaze;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int[][] getMazeArray() {
+        return mazeArray;
     }
 
     public static void createMaze() {
@@ -32,7 +42,6 @@ public class RandomGeneration {
                 mazeArray[i][k] = 1;
             }
         }
-
 
         // Start digging wall from the starting point
         currentRow = startRow + 1;
