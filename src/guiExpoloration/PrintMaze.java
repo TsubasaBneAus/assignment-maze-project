@@ -1,22 +1,36 @@
 package guiExpoloration;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 // This class is used for displaying created maze.
 public class PrintMaze extends JPanel {
     private final int rows;
     private final int columns;
     private final int[][] mazeArray;
+    private File importedImage1;
+    private BufferedImage importedImage2;
 
-    public PrintMaze(int rows, int columns, int[][] mazeArray) {
+    public PrintMaze(int rows, int columns, int[][] mazeArray, File importedImage1) {
         this.rows = rows;
         this.columns = columns;
         this.mazeArray = mazeArray;
+        this.importedImage1 = importedImage1;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (this.importedImage1 != null) {
+            try {
+                importedImage2 = ImageIO.read(importedImage1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -37,8 +51,9 @@ public class PrintMaze extends JPanel {
                     g.setColor(Color.RED);
                     g.fillRect(20 * j, 20 * i, 20, 20);
                 } else if (mazeArray[i][j] == 4) {
-                    g.setColor(Color.YELLOW);
-                    g.fillRect(20 * j, 20 * i, 20, 20);
+//                    g.setColor(Color.YELLOW);
+//                    g.fillRect(20 * j, 20 * i, 20, 20);
+                    g.drawImage(importedImage2, 20 * j, 20 * i, 20, 20, null);
                 }
             }
         }

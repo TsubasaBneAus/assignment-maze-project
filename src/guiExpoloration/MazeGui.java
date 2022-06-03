@@ -3,6 +3,7 @@ package guiExpoloration;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 
 public class MazeGui extends JFrame implements ActionListener, MouseListener {
@@ -10,16 +11,16 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
     private static int columns;
     private static int[][] mazeArray;
     private static JButton[][] buttons;
-    private static int defaultRows = 10;
-    private static int defaultColumns = 10;
-    private static boolean isCustomisedGeneration;
+    private static final int defaultRows = 10;
+    private static final int defaultColumns = 10;
     private static Object[] arrayForDifferentDataTypes = new Object[3];
-    private static  JPanel panelForButtons = new JPanel();
+    private static JPanel panelForButtons = new JPanel();
+    private static File imageFile = null;
     private static JToggleButton buttonStart = new JToggleButton("Select the starting block");
     private static JToggleButton buttonEnd = new JToggleButton("Select the ending block");
     private static JToggleButton buttonImageLocation = new JToggleButton("Select a block to locate an image");
 
-    public static void CreateInputSection(JFrame frame, JPanel panelOnTheLeft, JPanel panelOnTheRight) {
+    public static void CreateInputSection(JPanel panelOnTheLeft, JPanel panelOnTheRight) {
         JLabel label1ForInput = new JLabel("Rows:");
         JLabel label2ForInput = new JLabel("Columns:");
 
@@ -29,10 +30,11 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JButton buttonForInput = new JButton("Change a Maze Size");
         JButton buttonRandom = new JButton("Generate a Random Maze");
         JButton buttonGenerate = new JButton("Generate a Customised Maze");
+        JButton buttonChooseImage = new JButton("Select an image file to insert in the maze");
         JButton buttonExport = new JButton("Export a Maze Image");
-        JButton buttonReset = new JButton("Reset a Maze Settings");
+//        JButton buttonReset = new JButton("Reset a Maze Settings");
 
-//        JButton buttonTest = new JButton("Reset");
+
         JPanel panelForRows = new JPanel();
         JPanel panelForColumns = new JPanel();
 
@@ -42,7 +44,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             arrayForDifferentDataTypes[0] = rows;
             arrayForDifferentDataTypes[1] = columns;
             arrayForDifferentDataTypes[2] = mazeArray;
-            PrintMaze printMaze = new PrintMaze(rows, columns, mazeArray);
+            PrintMaze printMaze = new PrintMaze(rows, columns, mazeArray, imageFile);
             customisedMaze.add(printMaze);
             customisedMaze.setSize(panelForButtons.getWidth() - 20, panelForButtons.getHeight());
             customisedMaze.setVisible(true);
@@ -55,7 +57,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             arrayForDifferentDataTypes[0] = randGen.getRows();
             arrayForDifferentDataTypes[1] = randGen.getColumns();
             arrayForDifferentDataTypes[2] = randGen.getMazeArray();
-            PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray());
+            PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), imageFile);
             randomMaze.add(printMaze);
             randomMaze.setSize(625, 650);
             randomMaze.setVisible(true);
@@ -88,6 +90,30 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             }
         });
 
+        buttonChooseImage.addActionListener(e1 -> {
+            JFrame imageFrame = new JFrame("Confirmation");
+            JPanel imagePanel = new JPanel();
+            JLabel imageLabel = new JLabel();
+            JButton saveButton = new JButton("Save");
+            JFileChooser chooser = new JFileChooser();
+            int isSelected = chooser.showOpenDialog(null);
+            if (isSelected == JFileChooser.APPROVE_OPTION) {
+                imageLabel.setText(chooser.getSelectedFile().getName());
+            } else {
+                imageLabel.setText("Not selected");
+            }
+            saveButton.addActionListener(e2 -> {
+                imageFile = chooser.getSelectedFile();
+                imageFrame.dispose();
+            });
+
+            imagePanel.add(imageLabel);
+            imageFrame.add(imagePanel, BorderLayout.CENTER);
+            imageFrame.add(saveButton, BorderLayout.PAGE_END);
+            imageFrame.setSize(300, 300);
+            imageFrame.setVisible(true);
+        });
+
         buttonImageLocation.addActionListener(e -> {
             if (buttonEnd.isSelected()) {
                 JOptionPane.showMessageDialog(buttonForInput, "Please stop the end function first!",
@@ -99,6 +125,10 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                         "Invalid Input!", JOptionPane.ERROR_MESSAGE);
                 buttonImageLocation.setSelected(false);
 
+            } else if (imageFile == null) {
+                JOptionPane.showMessageDialog(buttonForInput, "Please select the image file to insert into the maze first!",
+                        "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+                buttonImageLocation.setSelected(false);
             }
         });
 
@@ -106,22 +136,22 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
             rows = Integer.parseInt(text1ForInput.getText());
             columns = Integer.parseInt(text2ForInput.getText());
             panelOnTheLeft.removeAll();
-//            if (size[0] > 10 || size[1] > 10) {
-//                JOptionPane.showMessageDialog(buttonForInput, "Too big",
-//                        "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
-//                size[0] = 10;
-//                size[1] = 10;
-//            }
+            if (rows > 50 || columns > 50) {
+                JOptionPane.showMessageDialog(buttonForInput, "The size you selected is too big",
+                        "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
+                rows = 10;
+                columns = 10;
+            }
             CreateSelectionButtons(panelOnTheLeft, rows, columns);
             panelOnTheLeft.revalidate();
             panelOnTheLeft.repaint();
         });
 
         buttonExport.addActionListener(e -> {
-            rows = (int) arrayForDifferentDataTypes[0];
-            columns = (int) arrayForDifferentDataTypes[1];
-            mazeArray = (int[][]) arrayForDifferentDataTypes[2];
-            new ExportImage(rows, columns, mazeArray);
+            int currentRows = (int) arrayForDifferentDataTypes[0];
+            int currentColumns = (int) arrayForDifferentDataTypes[1];
+            int[][] currentMazeArray = (int[][]) arrayForDifferentDataTypes[2];
+            new ExportImage(currentRows, currentColumns, currentMazeArray, imageFile);
         });
 
 //        buttonReset.addActionListener(new ActionListener() {
@@ -146,11 +176,12 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         panelOnTheRight.add(buttonForInput);
         panelOnTheRight.add(buttonStart);
         panelOnTheRight.add(buttonEnd);
+        panelOnTheRight.add(buttonChooseImage);
         panelOnTheRight.add(buttonImageLocation);
         panelOnTheRight.add(buttonGenerate);
         panelOnTheRight.add(buttonRandom);
         panelOnTheRight.add(buttonExport);
-        panelOnTheRight.add(buttonReset);
+//        panelOnTheRight.add(buttonReset);
     }
 
     public static void CreateSelectionButtons(JPanel panelOnTheLeft, int currentRows, int currentColumns) {
@@ -174,45 +205,42 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                 buttons[i][k].setBackground(Color.BLACK);
                 int currentRow = i;
                 int currentColumn = k;
-                buttons[i][k].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Get the button that was clicked
-                        JButton currentButton = (JButton) e.getSource();
-                        Color currentColor = currentButton.getBackground();
+                buttons[i][k].addActionListener(e -> {
+                    // Get the button that was clicked
+                    JButton currentButton = (JButton) e.getSource();
+                    Color currentColor = currentButton.getBackground();
 
-                        // If the value of the mazeArray is 0, the value means a path
-                        // If the value of the mazeArray is 1, the value means a wall
-                        // If the value of the mazeArray is 2, the value means the starting point
-                        // If the value of the mazeArray is 3, the value means the goal point
-                        // If the value of the mazeArray is 4, the value means a location to insert an image
-                        if (buttonImageLocation.isSelected()) {
-                            currentButton.setBackground(Color.YELLOW);
-                            mazeArray[currentRow][currentColumn] = 4;
-                            buttonImageLocation.setSelected(false);
-                        } else if (buttonStart.isSelected()) {
-                            if (currentColor == Color.GREEN) {
-                                currentButton.setBackground(Color.WHITE);
-                                mazeArray[currentRow][currentColumn] = 0;
-                            } else {
-                                currentButton.setBackground(Color.GREEN);
-                                mazeArray[currentRow][currentColumn] = 2;
-                            }
-                        } else if (buttonEnd.isSelected()) {
-                            if (currentColor == Color.RED) {
-                                currentButton.setBackground(Color.WHITE);
-                                mazeArray[currentRow][currentColumn] = 0;
-                            } else {
-                                currentButton.setBackground(Color.RED);
-                                mazeArray[currentRow][currentColumn] = 3;
-                            }
-                        } else if (currentColor == Color.BLACK) {
+                    // If the value of the mazeArray is 0, the value means a path
+                    // If the value of the mazeArray is 1, the value means a wall
+                    // If the value of the mazeArray is 2, the value means the starting point
+                    // If the value of the mazeArray is 3, the value means the goal point
+                    // If the value of the mazeArray is 4, the value means a location to insert an image
+                    if (buttonImageLocation.isSelected()) {
+                        currentButton.setBackground(Color.YELLOW);
+                        mazeArray[currentRow][currentColumn] = 4;
+                        buttonImageLocation.setSelected(false);
+                    } else if (buttonStart.isSelected()) {
+                        if (currentColor == Color.GREEN) {
                             currentButton.setBackground(Color.WHITE);
                             mazeArray[currentRow][currentColumn] = 0;
                         } else {
-                            currentButton.setBackground(Color.BLACK);
-                            mazeArray[currentRow][currentColumn] = 1;
+                            currentButton.setBackground(Color.GREEN);
+                            mazeArray[currentRow][currentColumn] = 2;
                         }
+                    } else if (buttonEnd.isSelected()) {
+                        if (currentColor == Color.RED) {
+                            currentButton.setBackground(Color.WHITE);
+                            mazeArray[currentRow][currentColumn] = 0;
+                        } else {
+                            currentButton.setBackground(Color.RED);
+                            mazeArray[currentRow][currentColumn] = 3;
+                        }
+                    } else if (currentColor == Color.BLACK) {
+                        currentButton.setBackground(Color.WHITE);
+                        mazeArray[currentRow][currentColumn] = 0;
+                    } else {
+                        currentButton.setBackground(Color.BLACK);
+                        mazeArray[currentRow][currentColumn] = 1;
                     }
                 });
                 panelForButtons.add(buttons[i][k]);
@@ -228,7 +256,7 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
         JPanel panelOnTheRight = new JPanel();
         frame.setLayout(new BorderLayout());
         CreateSelectionButtons(panelOnTheLeft, defaultRows, defaultColumns);
-        CreateInputSection(frame, panelOnTheLeft, panelOnTheRight);
+        CreateInputSection(panelOnTheLeft, panelOnTheRight);
         frame.add(panelOnTheLeft, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

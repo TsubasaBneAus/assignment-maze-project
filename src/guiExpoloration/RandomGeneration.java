@@ -71,6 +71,16 @@ public class RandomGeneration {
         mazeArray[startRow][startColumn] = 2;
         mazeArray[goalRow][goalColumn] = 3;
 
+        // Insert an image into the random position in all walls of the maze
+        Random randImage = new Random();
+        while (true) {
+            int imageRow = randImage.nextInt(rows);
+            int imageColumn = randImage.nextInt(columns);
+            if (mazeArray[imageRow][imageColumn] == 1) {
+                mazeArray[imageRow][imageColumn] = 4;
+                break;
+            }
+        }
     }
 
     // Create a new path
