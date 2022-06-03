@@ -16,15 +16,19 @@ public class RandomGeneration {
     private static final int startColumn = 1;
     private static final int goalRow = rows - 1;
     private static final int goalColumn = columns - 2;
+
     public RandomGeneration() {
         createMaze();
     }
+
     public int getRows() {
         return rows;
     }
+
     public int getColumns() {
         return columns;
     }
+
     public int[][] getMazeArray() {
         return mazeArray;
     }
@@ -38,6 +42,14 @@ public class RandomGeneration {
                 mazeArray[i][k] = 1;
             }
         }
+
+        Random randImage = new Random();
+        int imageRow = randImage.nextInt(rows - 1) + 1;
+        int imageColumn = randImage.nextInt(columns - 1) + 1;
+        mazeArray[imageRow][imageColumn] = 0;
+        mazeArray[imageRow][imageColumn + 1] = 0;
+        mazeArray[imageRow + 1][imageColumn] = 0;
+        mazeArray[imageRow + 1][imageColumn + 1] = 0;
 
         // Start digging wall from the starting point
         currentRow = startRow + 1;
@@ -72,15 +84,10 @@ public class RandomGeneration {
         mazeArray[goalRow][goalColumn] = 3;
 
         // Insert an image into the random position in all walls of the maze
-        Random randImage = new Random();
-        while (true) {
-            int imageRow = randImage.nextInt(rows);
-            int imageColumn = randImage.nextInt(columns);
-            if (mazeArray[imageRow][imageColumn] == 1) {
-                mazeArray[imageRow][imageColumn] = 4;
-                break;
-            }
-        }
+        mazeArray[imageRow][imageColumn] = 4;
+        mazeArray[imageRow][imageColumn + 1] = 5;
+        mazeArray[imageRow + 1][imageColumn] = 5;
+        mazeArray[imageRow + 1][imageColumn + 1] = 5;
     }
 
     // Create a new path

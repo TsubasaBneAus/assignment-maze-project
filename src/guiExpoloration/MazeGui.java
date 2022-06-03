@@ -215,9 +215,16 @@ public class MazeGui extends JFrame implements ActionListener, MouseListener {
                     // If the value of the mazeArray is 2, the value means the starting point
                     // If the value of the mazeArray is 3, the value means the goal point
                     // If the value of the mazeArray is 4, the value means a location to insert an image
+                    // If the value of the mazeArray is 5, the value means surrounding locations to insert an image
                     if (buttonImageLocation.isSelected()) {
                         currentButton.setBackground(Color.YELLOW);
                         mazeArray[currentRow][currentColumn] = 4;
+                        mazeArray[currentRow][currentColumn + 1] = 5;
+                        mazeArray[currentRow + 1][currentColumn] = 5;
+                        mazeArray[currentRow + 1][currentColumn + 1] = 5;
+                        buttons[currentRow][currentColumn + 1].setBackground(Color.BLUE);
+                        buttons[currentRow + 1][currentColumn].setBackground(Color.BLUE);
+                        buttons[currentRow + 1][currentColumn + 1].setBackground(Color.BLUE);
                         buttonImageLocation.setSelected(false);
                     } else if (buttonStart.isSelected()) {
                         if (currentColor == Color.GREEN) {

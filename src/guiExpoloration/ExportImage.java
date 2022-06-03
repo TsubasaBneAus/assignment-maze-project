@@ -37,10 +37,12 @@ public class ExportImage extends JPanel {
             Graphics g = exportedImage.getGraphics();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    // If the value of the mazeArray means a path, paint a block with white
-                    // If the value of the mazeArray means a wall, paint a block with black
-                    // If the value of the mazeArray means a starting point, paint a block with white
-                    // If the value of the mazeArray means a goal point, paint a block with white
+                    // If the value of the mazeArray is 0, paint a block with white
+                    // If the value of the mazeArray is 1, paint a block with black
+                    // If the value of the mazeArray is 2, paint a block with white
+                    // If the value of the mazeArray is 3, paint a block with white
+                    // If the value of the mazeArray is 4, insert the designated image
+                    // If the value of the mazeArray is 5, put a blank to insert the designated image
                     if (mazeArray[i][j] == 0) {
                         g.setColor(Color.WHITE);
                         g.fillRect(20 * j, 20 * i, 20, 20);
@@ -54,9 +56,9 @@ public class ExportImage extends JPanel {
                         g.setColor(Color.RED);
                         g.fillRect(20 * j, 20 * i, 20, 20);
                     } else if (mazeArray[i][j] == 4) {
-//                        g.setColor(Color.YELLOW);
-//                        g.fillRect(20 * j, 20 * i, 20, 20);
-                        g.drawImage(importedImage2, 20 * j, 20 * i, 20, 20, null);
+                        g.drawImage(importedImage2, 20 * j, 20 * i, 40, 40, null);
+                    } else if (mazeArray[i][j] == 5) {
+                        continue;
                     }
                 }
             }
