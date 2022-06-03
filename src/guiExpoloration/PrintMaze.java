@@ -36,6 +36,9 @@ public class PrintMaze extends JPanel {
                 } else if (mazeArray[i][j] == 3) {
                     g.setColor(Color.RED);
                     g.fillRect(20 * j, 20 * i, 20, 20);
+                } else if (mazeArray[i][j] == 4) {
+                    g.setColor(Color.YELLOW);
+                    g.fillRect(20 * j, 20 * i, 20, 20);
                 }
             }
         }

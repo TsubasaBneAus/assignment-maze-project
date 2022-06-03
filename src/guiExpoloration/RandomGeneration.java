@@ -16,25 +16,21 @@ public class RandomGeneration {
     private static final int startColumn = 1;
     private static final int goalRow = rows - 1;
     private static final int goalColumn = columns - 2;
-
     public RandomGeneration() {
         createMaze();
     }
-
     public int getRows() {
         return rows;
     }
-
     public int getColumns() {
         return columns;
     }
-
     public int[][] getMazeArray() {
         return mazeArray;
     }
 
     public static void createMaze() {
-        // Make all cells become walls
+        // Make all cells become walls at first
         // If the value of the mazeArray is 0, the value means a path
         // If the value of the mazeArray is 1, the value means a wall
         for (int i = 0; i < rows; i++) {
@@ -70,8 +66,8 @@ public class RandomGeneration {
         }
 
         // Make the starting point and goal point become paths
-        // If the value of the mazeArray is 2, the value means a path
-        // If the value of the mazeArray is 3, the value means a wall
+        // If the value of the mazeArray is 2, the value means the starting point
+        // If the value of the mazeArray is 3, the value means the goal point
         mazeArray[startRow][startColumn] = 2;
         mazeArray[goalRow][goalColumn] = 3;
 

@@ -22,7 +22,7 @@ public class ExportImage extends JPanel {
 
     public void saveImage() {
         try {
-            BufferedImage image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(20 * columns, 20 * rows, BufferedImage.TYPE_INT_RGB);
             Graphics g = image.getGraphics();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
@@ -41,6 +41,9 @@ public class ExportImage extends JPanel {
                         g.fillRect(20 * j, 20 * i, 20, 20);
                     } else if (mazeArray[i][j] == 3) {
                         g.setColor(Color.RED);
+                        g.fillRect(20 * j, 20 * i, 20, 20);
+                    } else if (mazeArray[i][j] == 4) {
+                        g.setColor(Color.YELLOW);
                         g.fillRect(20 * j, 20 * i, 20, 20);
                     }
                 }
