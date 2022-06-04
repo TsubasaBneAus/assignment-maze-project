@@ -1,4 +1,4 @@
-package guiExpoloration;
+package guiExploration;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,14 +8,25 @@ import java.io.File;
 import java.io.IOException;
 
 
-// This class is used for exporting a maze as an JPG file.
+/**
+ * The class for exporting the generated maze as an image file
+ * @author Tsubasa Endo
+ */
 public class ExportImage extends JPanel {
+
     private final int rows;
     private final int columns;
     private final int[][] mazeArray;
-    private File importedImage1;
+    private final File importedImage1;
     private BufferedImage importedImage2;
 
+    /**
+     * The constructor for this "ExportImage" class
+     * @param rows The number of rows of the generated maze
+     * @param columns The number of columns of the generated maze
+     * @param mazeArray The array representing the structure of the generated maze
+     * @param importedImage1 The image file to insert into the maze
+     */
     public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1) {
         this.rows = rows;
         this.columns = columns;
@@ -24,6 +35,10 @@ public class ExportImage extends JPanel {
         saveImage();
     }
 
+    /**
+     * The method for converting the generated maze with the designated image into a "generatedMaze.jpg",
+     * and saving it to this current Maze-Project folder
+     */
     public void saveImage() {
         if (this.importedImage1 != null) {
             try {
@@ -63,7 +78,7 @@ public class ExportImage extends JPanel {
                 }
             }
             g.dispose();
-            ImageIO.write(exportedImage, "jpg", new File("mazeScreenshot.jpg"));
+            ImageIO.write(exportedImage, "jpg", new File("generatedMaze.jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }

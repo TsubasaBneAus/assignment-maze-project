@@ -1,9 +1,12 @@
-package guiExpoloration;
+package guiExploration;
 
+import java.io.File;
 import java.util.Random;
 import java.util.Stack;
 
-// This class is used for generating a random maze.
+/**
+ * The class for generating a random maze automatically
+ */
 public class RandomGeneration {
     private static final int rows = 30;
     private static final int columns = 30;
@@ -16,24 +19,46 @@ public class RandomGeneration {
     private static final int startColumn = 1;
     private static final int goalRow = rows - 1;
     private static final int goalColumn = columns - 2;
+    private static int imageRow;
+    private static int imageColumn;
 
-    public RandomGeneration() {
-        createMaze();
+
+    /**
+     * The constructor for this "RandomGeneration" class
+     * @param imageFile The image file to insert into the maze
+     */
+    public RandomGeneration(File imageFile) {
+        createMaze(imageFile);
     }
 
+    /**
+     * The method for getting the number of "rows"
+     * @return The number of "rows"
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * The method for getting the number of "columns"
+     * @return The number of "columns"
+     */
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * The method for getting the array of "mazeArray"
+     * @return The array of "mazeArray"
+     */
     public int[][] getMazeArray() {
         return mazeArray;
     }
 
-    public static void createMaze() {
+    /**
+     * The method for generating a random maze
+     */
+    public static void createMaze(File imageFile) {
         // Make all cells become walls at first
         // If the value of the mazeArray is 0, the value means a path
         // If the value of the mazeArray is 1, the value means a wall
@@ -43,13 +68,15 @@ public class RandomGeneration {
             }
         }
 
-        Random randImage = new Random();
-        int imageRow = randImage.nextInt(rows - 1) + 1;
-        int imageColumn = randImage.nextInt(columns - 1) + 1;
-        mazeArray[imageRow][imageColumn] = 0;
-        mazeArray[imageRow][imageColumn + 1] = 0;
-        mazeArray[imageRow + 1][imageColumn] = 0;
-        mazeArray[imageRow + 1][imageColumn + 1] = 0;
+        if (imageFile != null) {
+            Random randImage = new Random();
+            imageRow = randImage.nextInt(rows - 1) + 1;
+            imageColumn = randImage.nextInt(columns - 1) + 1;
+            mazeArray[imageRow][imageColumn] = 0;
+            mazeArray[imageRow][imageColumn + 1] = 0;
+            mazeArray[imageRow + 1][imageColumn] = 0;
+            mazeArray[imageRow + 1][imageColumn + 1] = 0;
+        }
 
         // Start digging wall from the starting point
         currentRow = startRow + 1;
@@ -83,14 +110,18 @@ public class RandomGeneration {
         mazeArray[startRow][startColumn] = 2;
         mazeArray[goalRow][goalColumn] = 3;
 
-        // Insert an image into the random position in all walls of the maze
-        mazeArray[imageRow][imageColumn] = 4;
-        mazeArray[imageRow][imageColumn + 1] = 5;
-        mazeArray[imageRow + 1][imageColumn] = 5;
-        mazeArray[imageRow + 1][imageColumn + 1] = 5;
+        if (imageFile != null) {
+            // Insert an image into the random position in all walls of the maze
+            mazeArray[imageRow][imageColumn] = 4;
+            mazeArray[imageRow][imageColumn + 1] = 5;
+            mazeArray[imageRow + 1][imageColumn] = 5;
+            mazeArray[imageRow + 1][imageColumn + 1] = 5;
+        }
     }
 
-    // Create a new path
+    /**
+     * The method for creating a new path
+     */
     public static void createPathA() {
         boolean continueLoop = true;
         while (continueLoop) {
@@ -98,7 +129,10 @@ public class RandomGeneration {
         }
     }
 
-    // Check if the program succeeds to create a new path
+    /**
+     * The method for checking if the program succeeds to create a new path
+     * @return The boolean value representing whether the program succeeds to create a new path
+     */
     public static boolean createPathB() {
         Random rand = new Random();
         int direction = rand.nextInt(4);
@@ -112,7 +146,11 @@ public class RandomGeneration {
         return false;
     }
 
-    // Check if the program can create a path with a designated direction
+    /**
+     * The method for checking if the program can create a path with a designated direction
+     * @param direction The integer value representing which the program create a path
+     * @return The boolean value representing whether the program can create a path with a designated direction
+     */
     public static boolean canCreatePathWithDirection(int direction) {
         int nextRow = currentRow;
         int nextColumn = currentColumn;
@@ -167,7 +205,11 @@ public class RandomGeneration {
         return true;
     }
 
-    // Move the current point to the next designated point
+
+    /**
+     * The method for moving the current point to the next designated point
+     * @param direction The integer value representing which the program create a path
+     */
     public static void moveToTheNextPoint(int direction) {
         switch (direction) {
             // Move top
