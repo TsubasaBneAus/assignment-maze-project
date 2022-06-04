@@ -32,24 +32,24 @@ public class RandomGeneration {
     }
 
     /**
-     * The method for getting the number of "rows"
-     * @return The number of "rows"
+     * The method for getting "rows"
+     * @return "rows"
      */
     public int getRows() {
         return rows;
     }
 
     /**
-     * The method for getting the number of "columns"
-     * @return The number of "columns"
+     * The method for getting "columns"
+     * @return "columns"
      */
     public int getColumns() {
         return columns;
     }
 
     /**
-     * The method for getting the array of "mazeArray"
-     * @return The array of "mazeArray"
+     * The method for getting "mazeArray"
+     * @return "mazeArray"
      */
     public int[][] getMazeArray() {
         return mazeArray;

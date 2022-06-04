@@ -18,7 +18,7 @@ public class ExportImage extends JPanel {
     private final int columns;
     private final int[][] mazeArray;
     private final File importedImage1;
-    private BufferedImage importedImage2;
+    private BufferedImage importedImage2 = null;
 
     /**
      * The constructor for this "ExportImage" class
@@ -33,6 +33,22 @@ public class ExportImage extends JPanel {
         this.mazeArray = mazeArray;
         this.importedImage1 = importedImage1;
         saveImage();
+    }
+
+    /**
+     * The method for getting "importedImage1"
+     * @return "importedImage1"
+     */
+    public File getImportedImage1() {
+        return importedImage1;
+    }
+
+    /**
+     * The method for getting "importedImage2"
+     * @return "importedImage2"
+     */
+    public BufferedImage getImportedImage2() {
+        return importedImage2;
     }
 
     /**

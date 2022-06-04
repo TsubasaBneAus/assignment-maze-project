@@ -15,7 +15,7 @@ public class PrintMaze extends JPanel {
     private final int columns;
     private final int[][] mazeArray;
     private final File importedImage1;
-    private BufferedImage importedImage2;
+    private BufferedImage importedImage2 = null;
 
     /**
      * The constructor for this "PrintMaze" class
@@ -29,6 +29,22 @@ public class PrintMaze extends JPanel {
         this.columns = columns;
         this.mazeArray = mazeArray;
         this.importedImage1 = importedImage1;
+    }
+
+    /**
+     * The method for getting "importedImage1"
+     * @return "importedImage1"
+     */
+    public File getImportedImage1() {
+        return importedImage1;
+    }
+
+    /**
+     * The method for getting "importedImage2"
+     * @return "importedImage2"
+     */
+    public BufferedImage getImportedImage2() {
+        return importedImage2;
     }
 
     /**
