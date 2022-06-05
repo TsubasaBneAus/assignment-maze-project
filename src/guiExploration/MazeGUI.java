@@ -152,11 +152,27 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
             panelOnTheLeft.repaint();
         });
 
-        buttonExport.addActionListener(e -> {
+        buttonExport.addActionListener(e1 -> {
+            JFrame exportFrame = new JFrame("Confirmation");
+            JPanel exportPanel = new JPanel();
+            JLabel exportLabel = new JLabel("Please name the generated maze.");
+            JButton saveButton = new JButton("Save");
+            JTextField inputName = new JTextField(10);
             int currentRows = (int) arrayForDifferentDataTypes[0];
             int currentColumns = (int) arrayForDifferentDataTypes[1];
             int[][] currentMazeArray = (int[][]) arrayForDifferentDataTypes[2];
-            new ExportImage(currentRows, currentColumns, currentMazeArray, imageFile);
+            saveButton.addActionListener(e2 -> {
+                String textName = inputName.getText();
+                new ExportImage(currentRows, currentColumns, currentMazeArray, imageFile, textName);
+                exportFrame.dispose();
+            });
+
+            exportPanel.add(exportLabel);
+            exportPanel.add(inputName);
+            exportFrame.add(exportPanel, BorderLayout.CENTER);
+            exportFrame.add(saveButton, BorderLayout.PAGE_END);
+            exportFrame.setSize(300, 300);
+            exportFrame.setVisible(true);
         });
 
         panelOnTheRight.setLayout(new GridLayout(15, 1));
@@ -275,6 +291,15 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         JPanel panelOnTheLeft = new JPanel();
         JPanel panelOnTheRight = new JPanel();
         frame.setLayout(new BorderLayout());
+        mazeArray = new int[defaultRows][defaultColumns];
+        for (int i = 0; i < rows; i++) {
+            for (int k = 0; k < columns; k++) {
+                mazeArray[i][k] = 1;
+            }
+        }
+        arrayForDifferentDataTypes[0] = defaultRows;
+        arrayForDifferentDataTypes[1] = defaultColumns;
+        arrayForDifferentDataTypes[2] = mazeArray;
         CreateSelectionButtons(panelOnTheLeft, defaultRows, defaultColumns);
         CreateInputSection(panelOnTheLeft, panelOnTheRight);
         frame.add(panelOnTheLeft, BorderLayout.WEST);

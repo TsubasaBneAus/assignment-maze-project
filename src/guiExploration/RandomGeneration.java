@@ -76,9 +76,6 @@ public class RandomGeneration {
             mazeArray[imageRow][imageColumn + 1] = 0;
             mazeArray[imageRow + 1][imageColumn] = 0;
             mazeArray[imageRow + 1][imageColumn + 1] = 0;
-            System.out.println(imageRow);
-            System.out.println(imageColumn);
-            System.out.println("======");
         }
 
         // Start digging wall from the starting point

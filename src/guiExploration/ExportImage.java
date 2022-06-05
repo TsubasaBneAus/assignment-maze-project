@@ -18,6 +18,7 @@ public class ExportImage extends JPanel {
     private final int columns;
     private final int[][] mazeArray;
     private final File importedImage1;
+    private final String mazeName;
     private BufferedImage importedImage2 = null;
 
     /**
@@ -27,11 +28,12 @@ public class ExportImage extends JPanel {
      * @param mazeArray The array representing the structure of the generated maze
      * @param importedImage1 The image file to insert into the maze
      */
-    public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1) {
+    public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1, String mazeName) {
         this.rows = rows;
         this.columns = columns;
         this.mazeArray = mazeArray;
         this.importedImage1 = importedImage1;
+        this.mazeName = mazeName;
         saveImage();
     }
 
@@ -52,8 +54,8 @@ public class ExportImage extends JPanel {
     }
 
     /**
-     * The method for converting the generated maze with the designated image into a "generatedMaze.jpg",
-     * and saving it to this current Maze-Project folder
+     * The method for converting the generated maze with the designated image into a JPG file,
+     * and saving it to this current Maze-Project folder by naming the maze
      */
     public void saveImage() {
         if (this.importedImage1 != null) {
@@ -94,7 +96,7 @@ public class ExportImage extends JPanel {
                 }
             }
             g.dispose();
-            ImageIO.write(exportedImage, "jpg", new File("generatedMaze.jpg"));
+            ImageIO.write(exportedImage, "jpg", new File(mazeName + ".jpg"));
         } catch (Exception e) {
             e.printStackTrace();
         }

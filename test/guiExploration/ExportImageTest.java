@@ -7,11 +7,11 @@ import java.io.File;
 
 class ExportImageTest {
     RandomGeneration randGen = new RandomGeneration(null);
-    ExportImage exportImage = new ExportImage(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), null);
+    ExportImage exportImage = new ExportImage(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), null, "TestMaze");
 
     @Test
     void saveImage() {
-        File file = new File("c:generatedMaze.jpg");
+        File file = new File("c:TestMaze.jpg");
         assertEquals(true, file.exists());
     }
 
