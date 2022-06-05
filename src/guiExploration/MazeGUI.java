@@ -45,7 +45,6 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         // Generate a maze that a user customised
         buttonGenerate.addActionListener(e -> {
             JFrame customisedMaze = new JFrame("Customised Maze");
-            JPanel customisedMazePanel = new JPanel();
             arrayForDifferentDataTypes[0] = rows;
             arrayForDifferentDataTypes[1] = columns;
             arrayForDifferentDataTypes[2] = mazeArray;
@@ -59,6 +58,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         buttonRandom.addActionListener(e -> {
             JFrame randomMaze = new JFrame("Random Maze");
             RandomGeneration randGen = new RandomGeneration(imageFile);
+            FindMazePath findMazePath = new FindMazePath(randGen.getMazeArray());
             arrayForDifferentDataTypes[0] = randGen.getRows();
             arrayForDifferentDataTypes[1] = randGen.getColumns();
             arrayForDifferentDataTypes[2] = randGen.getMazeArray();

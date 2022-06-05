@@ -65,8 +65,8 @@ public class PrintMaze extends JPanel {
             for (int j = 0; j < columns; j++) {
                 // If the value of the mazeArray is 0, paint a block with white
                 // If the value of the mazeArray is 1, paint a block with black
-                // If the value of the mazeArray is 2, paint a block with white
-                // If the value of the mazeArray is 3, paint a block with white
+                // If the value of the mazeArray is 2, paint a block with green
+                // If the value of the mazeArray is 3, paint a block with red
                 // If the value of the mazeArray is 4, insert the designated image
                 // If the value of the mazeArray is 5, put a blank to insert the designated image
                 if (mazeArray[i][j] == 0) {
@@ -85,6 +85,9 @@ public class PrintMaze extends JPanel {
                     g.drawImage(importedImage2, 10 * j, 10 * i, 20, 20, null);
                 } else if (mazeArray[i][j] == 5) {
                     continue;
+                } else if (mazeArray[i][j] == 6) {
+                    g.setColor(Color.ORANGE);
+                    g.fillRect(10 * j, 10 * i, 10, 10);
                 }
             }
         }

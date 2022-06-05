@@ -4,15 +4,13 @@ import java.io.File;
 import java.util.Random;
 import java.util.Stack;
 
-/**
- * The class for generating a random maze automatically
- */
-public class RandomGeneration {
+public class FindMazePath {
     private static final int rows = 50;
     private static final int columns = 50;
     private static int currentRow;
     private static int currentColumn;
-    private static final int[][] mazeArray = new int[rows][columns];
+    private static int[][] mazeArray = new int[rows][columns];
+    private static int[][] solvedMazeArray = new int[rows][columns];
     private static final Stack<Integer> rowsStack = new Stack<>();
     private static final Stack<Integer> columnsStack = new Stack<>();
     private static final int startRow = 0;
@@ -22,23 +20,8 @@ public class RandomGeneration {
     private static int imageRow;
     private static int imageColumn;
 
-
-    /**
-     * The constructor for this "RandomGeneration" class
-     * @param imageFile The image file to insert into the maze
-     */
-    public RandomGeneration(File imageFile) {
-        while (true) {
-            createMaze(imageFile);
-            if (mazeArray[goalRow - 1][goalColumn] == 0) {
-                // Make the starting point and goal point become paths
-                // If the value of the mazeArray is 2, the value means the starting point
-                // If the value of the mazeArray is 3, the value means the goal point
-                mazeArray[startRow][startColumn] = 2;
-                mazeArray[goalRow][goalColumn] = 3;
-                break;
-            }
-        }
+    public FindMazePath(int[][] mazeArray) {
+        this.mazeArray = mazeArray;
     }
 
     /**
@@ -61,33 +44,14 @@ public class RandomGeneration {
      * The method for getting "mazeArray"
      * @return "mazeArray"
      */
-    public int[][] getMazeArray() {
-        return mazeArray;
+    public int[][] getSolvedMazeArray() {
+        return solvedMazeArray;
     }
 
     /**
      * The method for generating a random maze
      */
     public static void createMaze(File imageFile) {
-        // Make all cells become walls at first
-        // If the value of the mazeArray is 0, the value means a path
-        // If the value of the mazeArray is 1, the value means a wall
-        for (int i = 0; i < rows; i++) {
-            for (int k = 0; k < columns; k++) {
-                mazeArray[i][k] = 1;
-            }
-        }
-
-        if (imageFile != null) {
-            Random randImage = new Random();
-            imageRow = randImage.nextInt(rows - 9) + 5;
-            imageColumn = randImage.nextInt(columns - 9) + 5;
-            mazeArray[imageRow][imageColumn] = 0;
-            mazeArray[imageRow][imageColumn + 1] = 0;
-            mazeArray[imageRow + 1][imageColumn] = 0;
-            mazeArray[imageRow + 1][imageColumn + 1] = 0;
-        }
-
         // Start digging wall from the starting point
         currentRow = startRow + 1;
         currentColumn = startColumn;
@@ -113,6 +77,12 @@ public class RandomGeneration {
             }
 
         }
+
+        // Make the starting point and goal point become paths
+        // If the value of the mazeArray is 2, the value means the starting point
+        // If the value of the mazeArray is 3, the value means the goal point
+        mazeArray[startRow][startColumn] = 2;
+        mazeArray[goalRow][goalColumn] = 3;
 
         if (imageFile != null) {
             // Insert an image into the random position in all walls of the maze
@@ -233,3 +203,4 @@ public class RandomGeneration {
         columnsStack.push(currentColumn);
     }
 }
+
