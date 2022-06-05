@@ -8,8 +8,8 @@ import java.util.Stack;
  * The class for generating a random maze automatically
  */
 public class RandomGeneration {
-    private static final int rows = 30;
-    private static final int columns = 30;
+    private static final int rows = 50;
+    private static final int columns = 50;
     private static int currentRow;
     private static int currentColumn;
     private static final int[][] mazeArray = new int[rows][columns];

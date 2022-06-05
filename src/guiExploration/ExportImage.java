@@ -78,18 +78,18 @@ public class ExportImage extends JPanel {
                     // If the value of the mazeArray is 5, put a blank to insert the designated image
                     if (mazeArray[i][j] == 0) {
                         g.setColor(Color.WHITE);
-                        g.fillRect(20 * j, 20 * i, 20, 20);
+                        g.fillRect(10 * j, 10 * i, 10, 10);
                     } else if (mazeArray[i][j] == 1) {
                         g.setColor(Color.BLACK);
-                        g.fillRect(20 * j, 20 * i, 20, 20);
+                        g.fillRect(10 * j, 10 * i, 10, 10);
                     } else if (mazeArray[i][j] == 2) {
                         g.setColor(Color.GREEN);
-                        g.fillRect(20 * j, 20 * i, 20, 20);
+                        g.fillRect(10 * j, 10 * i, 10, 10);
                     } else if (mazeArray[i][j] == 3) {
                         g.setColor(Color.RED);
-                        g.fillRect(20 * j, 20 * i, 20, 20);
+                        g.fillRect(10 * j, 10 * i, 10, 10);
                     } else if (mazeArray[i][j] == 4) {
-                        g.drawImage(importedImage2, 20 * j, 20 * i, 40, 40, null);
+                        g.drawImage(importedImage2, 10 * j, 10 * i, 20, 20, null);
                     } else if (mazeArray[i][j] == 5) {
                         continue;
                     }

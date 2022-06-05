@@ -45,12 +45,13 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         // Generate a maze that a user customised
         buttonGenerate.addActionListener(e -> {
             JFrame customisedMaze = new JFrame("Customised Maze");
+            JPanel customisedMazePanel = new JPanel();
             arrayForDifferentDataTypes[0] = rows;
             arrayForDifferentDataTypes[1] = columns;
             arrayForDifferentDataTypes[2] = mazeArray;
             PrintMaze printMaze = new PrintMaze(rows, columns, mazeArray, imageFile);
             customisedMaze.add(printMaze);
-            customisedMaze.setSize(panelForButtons.getWidth() - 20, panelForButtons.getHeight());
+            customisedMaze.setSize(800, 800);
             customisedMaze.setVisible(true);
         });
 
@@ -141,7 +142,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
             rows = Integer.parseInt(text1ForInput.getText());
             columns = Integer.parseInt(text2ForInput.getText());
             panelOnTheLeft.removeAll();
-            if (rows > 40 || columns > 40) {
+            if (rows > 100 || columns > 100) {
                 JOptionPane.showMessageDialog(buttonForInput, "The size you selected is too big",
                         "Wiring Class: Error", JOptionPane.ERROR_MESSAGE);
                 rows = 10;
@@ -217,7 +218,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         for (int i = 0; i < currentRows; i++) {
             for (int k = 0; k < currentColumns; k++) {
                 buttons[i][k] = new JButton();
-                buttons[i][k].setPreferredSize(new Dimension(25, 25));
+                buttons[i][k].setPreferredSize(new Dimension(15, 15));
                 buttons[i][k].setBackground(Color.BLACK);
                 int currentRow = i;
                 int currentColumn = k;
@@ -287,7 +288,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
      */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Maze Builder");
-        frame.setSize(1440, 1220);
+        frame.setSize(1440,1000);
         JPanel panelOnTheLeft = new JPanel();
         JPanel panelOnTheRight = new JPanel();
         frame.setLayout(new BorderLayout());
@@ -302,7 +303,9 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         arrayForDifferentDataTypes[2] = mazeArray;
         CreateSelectionButtons(panelOnTheLeft, defaultRows, defaultColumns);
         CreateInputSection(panelOnTheLeft, panelOnTheRight);
-        frame.add(panelOnTheLeft, BorderLayout.WEST);
+        JScrollPane scrollPane = new JScrollPane(panelOnTheLeft, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(1000, 600));
+        frame.add(scrollPane, BorderLayout.WEST);
         frame.add(panelOnTheRight, BorderLayout.EAST);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
