@@ -70,12 +70,15 @@ public class RandomGeneration {
 
         if (imageFile != null) {
             Random randImage = new Random();
-            imageRow = randImage.nextInt(rows - 1) + 1;
-            imageColumn = randImage.nextInt(columns - 1) + 1;
+            imageRow = randImage.nextInt(rows - 9) + 5;
+            imageColumn = randImage.nextInt(columns - 9) + 5;
             mazeArray[imageRow][imageColumn] = 0;
             mazeArray[imageRow][imageColumn + 1] = 0;
             mazeArray[imageRow + 1][imageColumn] = 0;
             mazeArray[imageRow + 1][imageColumn + 1] = 0;
+            System.out.println(imageRow);
+            System.out.println(imageColumn);
+            System.out.println("======");
         }
 
         // Start digging wall from the starting point

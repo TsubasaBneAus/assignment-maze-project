@@ -22,7 +22,8 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
 
     /**
      * The method for creating an input section on the right side of the window
-     * @param panelOnTheLeft The JPanel to be displayed on the right side of the window
+     *
+     * @param panelOnTheLeft  The JPanel to be displayed on the right side of the window
      * @param panelOnTheRight The JPanel to be displayed on the left side of the window
      */
     public static void CreateInputSection(JPanel panelOnTheLeft, JPanel panelOnTheRight) {
@@ -99,6 +100,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
             JLabel imageLabel = new JLabel();
             JButton saveButton = new JButton("Save");
             JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
             int isSelected = chooser.showOpenDialog(null);
             if (isSelected == JFileChooser.APPROVE_OPTION) {
                 imageLabel.setText(chooser.getSelectedFile().getName());
@@ -176,8 +178,9 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
 
     /**
      * The method for creating multiple selection buttons for users to customise their original maze
+     *
      * @param panelOnTheLeft The JPanel to be displayed on the left side of the window
-     * @param currentRows The number of "currentRows"
+     * @param currentRows    The number of "currentRows"
      * @param currentColumns The number of "currentColumns"
      */
     public static void CreateSelectionButtons(JPanel panelOnTheLeft, int currentRows, int currentColumns) {
