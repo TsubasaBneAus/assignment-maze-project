@@ -31,11 +31,6 @@ public class RandomGeneration {
         while (true) {
             createMaze(imageFile);
             if (mazeArray[goalRow - 1][goalColumn] == 0) {
-                // Make the starting point and goal point become paths
-                // If the value of the mazeArray is 2, the value means the starting point
-                // If the value of the mazeArray is 3, the value means the goal point
-                mazeArray[startRow][startColumn] = 2;
-                mazeArray[goalRow][goalColumn] = 3;
                 break;
             }
         }
@@ -113,6 +108,12 @@ public class RandomGeneration {
             }
 
         }
+
+        // Make the starting point and goal point become paths
+        // If the value of the mazeArray is 2, the value means the starting point
+        // If the value of the mazeArray is 3, the value means the goal point
+        mazeArray[startRow][startColumn] = 2;
+        mazeArray[goalRow][goalColumn] = 3;
 
         if (imageFile != null) {
             // Insert an image into the random position in all walls of the maze

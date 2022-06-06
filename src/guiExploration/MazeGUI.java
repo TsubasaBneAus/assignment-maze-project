@@ -85,10 +85,10 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
             FindMazePath findMazePath = new FindMazePath(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray());
             arrayForDifferentDataTypes[0] = randGen.getRows();
             arrayForDifferentDataTypes[1] = randGen.getColumns();
-            arrayForDifferentDataTypes[2] = randGen.getMazeArray();
+            arrayForDifferentDataTypes[2] = findMazePath.getSolvedMazeArray();
             PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), findMazePath.getSolvedMazeArray(), imageFile);
             randomMaze.add(printMaze);
-            randomMaze.setSize(625, 650);
+            randomMaze.setSize(525, 550);
             randomMaze.setVisible(true);
         });
 

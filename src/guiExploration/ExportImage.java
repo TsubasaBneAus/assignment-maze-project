@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * The class for exporting the generated maze as an image file
+ *
  * @author Tsubasa Endo
  */
 public class ExportImage extends JPanel {
@@ -23,9 +24,10 @@ public class ExportImage extends JPanel {
 
     /**
      * The constructor for this "ExportImage" class
-     * @param rows The number of rows of the generated maze
-     * @param columns The number of columns of the generated maze
-     * @param mazeArray The array representing the structure of the generated maze
+     *
+     * @param rows           The number of rows of the generated maze
+     * @param columns        The number of columns of the generated maze
+     * @param mazeArray      The array representing the structure of the generated maze
      * @param importedImage1 The image file to insert into the maze
      */
     public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1, String mazeName) {
@@ -39,6 +41,7 @@ public class ExportImage extends JPanel {
 
     /**
      * The method for getting "importedImage1"
+     *
      * @return "importedImage1"
      */
     public File getImportedImage1() {
@@ -47,6 +50,7 @@ public class ExportImage extends JPanel {
 
     /**
      * The method for getting "importedImage2"
+     *
      * @return "importedImage2"
      */
     public BufferedImage getImportedImage2() {
@@ -66,7 +70,7 @@ public class ExportImage extends JPanel {
             }
         }
         try {
-            BufferedImage exportedImage = new BufferedImage(20 * columns, 20 * rows, BufferedImage.TYPE_INT_RGB);
+            BufferedImage exportedImage = new BufferedImage(10 * columns, 10 * rows, BufferedImage.TYPE_INT_RGB);
             Graphics g = exportedImage.getGraphics();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
@@ -92,6 +96,9 @@ public class ExportImage extends JPanel {
                         g.drawImage(importedImage2, 10 * j, 10 * i, 20, 20, null);
                     } else if (mazeArray[i][j] == 5) {
                         continue;
+                    } else if (mazeArray[i][j] == 6) {
+                        g.setColor(Color.WHITE);
+                        g.fillRect(10 * j, 10 * i, 10, 10);
                     }
                 }
             }
