@@ -20,6 +20,30 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
     private static final JToggleButton buttonEnd = new JToggleButton("Select the ending block");
     private static final JToggleButton buttonImageLocation = new JToggleButton("Select a block to locate an image");
 
+    public int getDefaultRows() {
+        return defaultRows;
+    }
+
+    public int getDefaultColumns() {
+        return defaultColumns;
+    }
+
+    public int[][] getMazeArray() {
+        return mazeArray;
+    }
+
+    public JButton[][] getButtons() {
+        return buttons;
+    }
+
+    public Object[] getArrayForDifferentDataTypes() {
+        return arrayForDifferentDataTypes;
+    }
+
+    public File getImageFile() {
+        return imageFile;
+    }
+
     /**
      * The method for creating an input section on the right side of the window
      *
@@ -58,11 +82,11 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         buttonRandom.addActionListener(e -> {
             JFrame randomMaze = new JFrame("Random Maze");
             RandomGeneration randGen = new RandomGeneration(imageFile);
-            FindMazePath findMazePath = new FindMazePath(randGen.getMazeArray());
+            FindMazePath findMazePath = new FindMazePath(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray());
             arrayForDifferentDataTypes[0] = randGen.getRows();
             arrayForDifferentDataTypes[1] = randGen.getColumns();
             arrayForDifferentDataTypes[2] = randGen.getMazeArray();
-            PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), imageFile);
+            PrintMaze printMaze = new PrintMaze(randGen.getRows(), randGen.getColumns(), findMazePath.getSolvedMazeArray(), imageFile);
             randomMaze.add(printMaze);
             randomMaze.setSize(625, 650);
             randomMaze.setVisible(true);

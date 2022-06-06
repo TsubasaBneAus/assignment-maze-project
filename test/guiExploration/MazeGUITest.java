@@ -1,44 +1,53 @@
 package guiExploration;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+import java.io.File;
 
 
 class MazeGUITest {
+    MazeGUI mazeGUI = new MazeGUI();
 
     @Test
-    void createInputSection() {
+    void getDefaultRows() {
+        assertEquals(10, mazeGUI.getDefaultRows());
     }
 
     @Test
-    void createSelectionButtons() {
+    void getDefalutColumns() {
+        assertEquals(10, mazeGUI.getDefaultColumns());
     }
 
     @Test
-    void main() {
+    void getMazeArray() {
+        assertEquals(null, mazeGUI.getMazeArray());
     }
 
     @Test
-    void actionPerformed() {
+    void getButtons() {
+        assertEquals(null, mazeGUI.getButtons());
     }
 
     @Test
-    void mouseClicked() {
+    void getArrayForDifferentDataTypes1() {
+        assertEquals(null, mazeGUI.getArrayForDifferentDataTypes()[0]);
     }
 
     @Test
-    void mousePressed() {
+    void getArrayForDifferentDataTypes2() {
+        assertEquals(null, mazeGUI.getArrayForDifferentDataTypes()[1]);
     }
 
     @Test
-    void mouseReleased() {
+    void getArrayForDifferentDataTypes3() {
+        assertEquals(null, mazeGUI.getArrayForDifferentDataTypes()[2]);
     }
 
     @Test
-    void mouseEntered() {
-    }
-
-    @Test
-    void mouseExited() {
+    void getImageFile() {
+        assertEquals(null, mazeGUI.getImageFile());
     }
 }

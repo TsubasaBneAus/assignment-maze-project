@@ -8,17 +8,20 @@ class RandomGenerationTest {
 
     @Test
     void getRows() {
-        assertEquals(30, randGen.getRows());
+        assertEquals(50, randGen.getRows());
     }
 
     @Test
     void getColumns() {
-        assertEquals(30, randGen.getRows());
+        assertEquals(50, randGen.getRows());
     }
 
     @Test
     void getMazeArray() {
-        int[][] mazeArray = new int[30][30];
-        assertEquals(mazeArray, randGen.getMazeArray());
+        for (int i = 0; i < randGen.getRows(); i++) {
+            for (int k = 0; k < randGen.getColumns(); k++) {
+                assertNotNull(randGen.getMazeArray()[i][k]);
+            }
+        }
     }
 }

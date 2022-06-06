@@ -1,27 +1,44 @@
 package guiExploration;
 
-import java.io.File;
-import java.util.Random;
 import java.util.Stack;
 
+/**
+ * The class to find a path from the start to the end of a maze
+ */
 public class FindMazePath {
-    private static final int rows = 50;
-    private static final int columns = 50;
+    private static int rows;
+    private static int columns;
     private static int currentRow;
     private static int currentColumn;
     private static int[][] mazeArray = new int[rows][columns];
-    private static int[][] solvedMazeArray = new int[rows][columns];
+    private static int[][] solvedMazeArray;
     private static final Stack<Integer> rowsStack = new Stack<>();
     private static final Stack<Integer> columnsStack = new Stack<>();
+    private static final Stack<Integer> directionsStack = new Stack<>();
     private static final int startRow = 0;
     private static final int startColumn = 1;
-    private static final int goalRow = rows - 1;
-    private static final int goalColumn = columns - 2;
-    private static int imageRow;
-    private static int imageColumn;
 
-    public FindMazePath(int[][] mazeArray) {
+    /**
+     * The constructor for this "FindMazePath" class
+     *
+     * @param rows      The number of rows of the "mazeArray"
+     * @param columns   The number of columns of the "mazeArray"
+     * @param mazeArray The array including the structure of a maze
+     */
+    public FindMazePath(int rows, int columns, int[][] mazeArray) {
+        this.rows = rows;
+        this.columns = columns;
         this.mazeArray = mazeArray;
+        solvedMazeArray = new int[rows][columns];
+        initialiseMazes();
+        findPath1();
+        while (true) {
+            if (rowsStack.empty() && columnsStack.empty()) {
+                break;
+            } else {
+                solvedMazeArray[rowsStack.pop()][columnsStack.pop()] = 6;
+            }
+        }
     }
 
     /**
@@ -41,91 +58,107 @@ public class FindMazePath {
     }
 
     /**
-     * The method for getting "mazeArray"
-     * @return "mazeArray"
+     * The method for getting "solvedMazeArray"
+     *
+     * @return "solvedMazeArray"
      */
     public int[][] getSolvedMazeArray() {
         return solvedMazeArray;
     }
 
     /**
-     * The method for generating a random maze
+     * The method to initialise mazes by copying the contents of the "mazeArray" to a "solvedMazeArray
+     * and changing all values of the "mazeArray" to either 0 or 1, which means paths or walls respectively
      */
-    public static void createMaze(File imageFile) {
-        // Start digging wall from the starting point
+    public void initialiseMazes() {
+        for (int i = 0; i < rows; i++) {
+            for (int k = 0; k < columns; k++) {
+                if (mazeArray[i][k] == 0) {
+                    solvedMazeArray[i][k] = 0;
+                } else if (mazeArray[i][k] == 1) {
+                    solvedMazeArray[i][k] = 1;
+                } else if (mazeArray[i][k] == 2) {
+                    solvedMazeArray[i][k] = 2;
+                } else if (mazeArray[i][k] == 3) {
+                    solvedMazeArray[i][k] = 3;
+                } else if (mazeArray[i][k] == 4) {
+                    solvedMazeArray[i][k] = 4;
+                } else if (mazeArray[i][k] == 5) {
+                    solvedMazeArray[i][k] = 5;
+                }
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int k = 0; k < columns; k++) {
+                if (mazeArray[i][k] == 2) {
+                    mazeArray[i][k] = 1;
+                } else if (mazeArray[i][k] == 3) {
+                    continue;
+                } else if (mazeArray[i][k] == 4) {
+                    mazeArray[i][k] = 1;
+                } else if (mazeArray[i][k] == 5) {
+                    mazeArray[i][k] = 1;
+                } else if (mazeArray[i][k] == 6) {
+                    mazeArray[i][k] = 1;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * The method for searching a path of the maze
+     */
+    public static void findPath1() {
         currentRow = startRow + 1;
         currentColumn = startColumn;
-        mazeArray[currentRow][currentColumn] = 0;
         rowsStack.push(currentRow);
         columnsStack.push(currentColumn);
 
-        // Create a path until the program visits all walls of mazeArray by digging walls
-        boolean continueLoop = true;
-        while (continueLoop) {
-            createPathA();
-            continueLoop = false;
-            while (rowsStack.empty() == false && columnsStack.empty() == false) {
-                currentRow = rowsStack.pop();
-                currentColumn = columnsStack.pop();
-                if (canCreatePathWithDirection(0) ||
-                        canCreatePathWithDirection(1) ||
-                        canCreatePathWithDirection(2) ||
-                        canCreatePathWithDirection(3)) {
-                    continueLoop = true;
-                    break;
-                }
+        while (true) {
+            if (findPath2() == 1) {
+                continue;
+            } else if (findPath2() == 2) {
+                break;
+            } else {
+                mazeArray[currentRow][currentColumn] = 1;
+                rowsStack.pop();
+                columnsStack.pop();
+                directionsStack.pop();
+                currentRow = rowsStack.peek();
+                currentColumn = columnsStack.peek();
+                continue;
             }
-
-        }
-
-        // Make the starting point and goal point become paths
-        // If the value of the mazeArray is 2, the value means the starting point
-        // If the value of the mazeArray is 3, the value means the goal point
-        mazeArray[startRow][startColumn] = 2;
-        mazeArray[goalRow][goalColumn] = 3;
-
-        if (imageFile != null) {
-            // Insert an image into the random position in all walls of the maze
-            mazeArray[imageRow][imageColumn] = 4;
-            mazeArray[imageRow][imageColumn + 1] = 5;
-            mazeArray[imageRow + 1][imageColumn] = 5;
-            mazeArray[imageRow + 1][imageColumn + 1] = 5;
         }
     }
 
     /**
-     * The method for creating a new path
+     * The method for checking if there are paths surrounding a designated location of the maze
+     * and checking if its location is next to the goal of the maze
+     *
+     * @return The integer value representing whether the conditions above are met
      */
-    public static void createPathA() {
-        boolean continueLoop = true;
-        while (continueLoop) {
-            continueLoop = createPathB();
-        }
-    }
-
-    /**
-     * The method for checking if the program succeeds to create a new path
-     * @return The boolean value representing whether the program succeeds to create a new path
-     */
-    public static boolean createPathB() {
-        Random rand = new Random();
-        int direction = rand.nextInt(4);
+    public static int findPath2() {
         for (int i = 0; i < 4; i++) {
-            direction = (direction + i) % 4;
-            if (canCreatePathWithDirection(direction)) {
-                moveToTheNextPoint(direction);
-                return true;
+            if (canFindPathWithDirection(i) == 1) {
+                moveToTheNextPoint(i);
+                return 1;
+            } else if (canFindPathWithDirection(i) == 2) {
+                return 2;
             }
         }
-        return false;
+        return 0;
     }
 
+
     /**
-     * The method for checking if the program can create a path with a designated direction
-     * @param direction The integer value representing which the program create a path
-     * @return The boolean value representing whether the program can create a path with a designated direction
+     * The method for checking if the program can find a path with a designated direction
+     *
+     * @param direction The integer value representing which the program find a path
+     * @return The boolean value representing whether the program can find a path with a designated direction
      */
-    public static boolean canCreatePathWithDirection(int direction) {
+    public static int canFindPathWithDirection(int direction) {
         int nextRow = currentRow;
         int nextColumn = currentColumn;
         switch (direction) {
@@ -142,47 +175,56 @@ public class FindMazePath {
             case 3 -> nextColumn++;
         }
 
-        // Calculate the number of surrounding paths of the point
-        int numSurroundingPaths = 0;
-
-        // Check if the nextRow is the first row, which must be walls
-        if (nextRow == 0) {
-            numSurroundingPaths++;
-        } else if (mazeArray[nextRow - 1][nextColumn] == 0) {
-            numSurroundingPaths++;
+        if (directionsStack.empty()) {
+            if (mazeArray[nextRow][nextColumn] == 0) {
+                return 1;
+            } else if (mazeArray[nextRow][nextColumn] == 3) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else if (directionsStack.peek() == 0 && direction != 1) {
+            if (mazeArray[nextRow][nextColumn] == 0) {
+                return 1;
+            } else if (mazeArray[nextRow][nextColumn] == 3) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else if (directionsStack.peek() == 1 && direction != 0) {
+            if (mazeArray[nextRow][nextColumn] == 0) {
+                return 1;
+            } else if (mazeArray[nextRow][nextColumn] == 3) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else if (directionsStack.peek() == 2 && direction != 3) {
+            if (mazeArray[nextRow][nextColumn] == 0) {
+                return 1;
+            } else if (mazeArray[nextRow][nextColumn] == 3) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else if (directionsStack.peek() == 3 && direction != 2) {
+            if (mazeArray[nextRow][nextColumn] == 0) {
+                return 1;
+            } else if (mazeArray[nextRow][nextColumn] == 3) {
+                return 2;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
         }
-
-        // Check if the nextRow is the last row, which must be walls
-        if (nextRow == rows - 1) {
-            numSurroundingPaths++;
-        } else if (mazeArray[nextRow + 1][nextColumn] == 0) {
-            numSurroundingPaths++;
-        }
-
-        // Check if the nextColumn is the first column, which must be walls
-        if (nextColumn == 0) {
-            numSurroundingPaths++;
-        } else if (mazeArray[nextRow][nextColumn - 1] == 0) {
-            numSurroundingPaths++;
-        }
-
-        // Check if the nextColumn is the last column, which must be walls
-        if (nextColumn == columns - 1) {
-            numSurroundingPaths++;
-        } else if (mazeArray[nextRow][nextColumn + 1] == 0) {
-            numSurroundingPaths++;
-        }
-
-        if (numSurroundingPaths > 1) {
-            return false;
-        }
-        return true;
     }
 
 
     /**
      * The method for moving the current point to the next designated point
-     * @param direction The integer value representing which the program create a path
+     *
+     * @param direction The integer value representing which the program find a path
      */
     public static void moveToTheNextPoint(int direction) {
         switch (direction) {
@@ -198,9 +240,9 @@ public class FindMazePath {
             // Move right
             case 3 -> currentColumn++;
         }
-        mazeArray[currentRow][currentColumn] = 0;
         rowsStack.push(currentRow);
         columnsStack.push(currentColumn);
+        directionsStack.push(direction);
     }
 }
 
