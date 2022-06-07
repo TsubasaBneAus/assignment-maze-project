@@ -12,22 +12,16 @@ import java.sql.Statement;
 public class SignUp extends JFrame implements ActionListener {
 
     // Components of the SignUp Form
-    private JFrame frame = new JFrame("Registration Form");
-    private JLabel firstName = new JLabel("First Name ");
-    private JLabel lastName = new JLabel("Last Name ");
-    private JLabel email = new JLabel("Email Address ");
-    private JLabel password = new JLabel("Password ");
-    private JTextField firstNameText = new JTextField();
-    private JTextField lastNameText = new JTextField();
-    private JTextField emailText;
-    private JPasswordField passwordText;
+    private final JFrame frame = new JFrame("Registration Form");
+    private final JTextField firstNameText = new JTextField();
+    private final JTextField lastNameText = new JTextField();
+    private final JTextField emailText;
+    private final JPasswordField passwordText;
 
-    private JCheckBox term = new JCheckBox("Accept Terms And Conditions.");
-    private JButton sub = new JButton("Submit");
-    private JButton reset = new JButton("Reset");
-    private JButton back = new JButton("Back");
-    private JTextArea userOutput = new JTextArea();
-    private JLabel res = new JLabel("");
+    private final JCheckBox term = new JCheckBox("Accept Terms And Conditions.");
+    private final JButton sub = new JButton("Submit");
+    private final JButton reset = new JButton("Reset");
+    private final JTextArea userOutput = new JTextArea();
     private JTextArea resadd;
     public Connection connection = null;
 
@@ -37,6 +31,7 @@ public class SignUp extends JFrame implements ActionListener {
     public SignUp() throws SQLException {
 //        connection = DriverManager.getConnection("jdbc:sqlite:C://Users/User/IdeaProjects/Maze-project/MazeDesign.db");
 
+        JLabel firstName = new JLabel("First Name ");
         firstName.setFont(new Font("Arial", Font.PLAIN, 20));
         firstName.setSize(150, 20);
         firstName.setLocation(100, 100);
@@ -46,6 +41,7 @@ public class SignUp extends JFrame implements ActionListener {
         firstNameText.setLocation(200, 100);
 
 
+        JLabel lastName = new JLabel("Last Name ");
         lastName.setFont(new Font("Arial", Font.PLAIN, 20));
         lastName.setSize(150, 20);
         lastName.setLocation(100, 150);
@@ -54,6 +50,7 @@ public class SignUp extends JFrame implements ActionListener {
         lastNameText.setSize(190, 20);
         lastNameText.setLocation(200, 150);
 
+        JLabel email = new JLabel("Email Address ");
         email.setFont(new Font("Arial", Font.PLAIN, 20));
         email.setSize(150, 20);
         email.setLocation(50, 200);
@@ -63,6 +60,7 @@ public class SignUp extends JFrame implements ActionListener {
         emailText.setSize(190, 20);
         emailText.setLocation(200, 200);
 
+        JLabel password = new JLabel("Password ");
         password.setFont(new Font("Arial", Font.PLAIN, 20));
         password.setSize(100, 20);
         password.setLocation(100, 250);
@@ -86,12 +84,13 @@ public class SignUp extends JFrame implements ActionListener {
         reset.setLocation(270, 450);
         reset.addActionListener(this);
 
+        JButton back = new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 15));
         back.setSize(100, 20);
         back.setLocation(390, 450);
         back.addActionListener(e -> {
             frame.dispose();
-            MainMenu mainMenu = new MainMenu();
+            new MainMenu();
         });
 
         userOutput.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -100,6 +99,7 @@ public class SignUp extends JFrame implements ActionListener {
         userOutput.setLineWrap(true);
         userOutput.setEditable(false);
 
+        JLabel res = new JLabel("");
         res.setFont(new Font("Arial", Font.PLAIN, 20));
         res.setSize(500, 25);
         res.setLocation(100, 500);

@@ -9,21 +9,18 @@ import java.awt.event.*;
 public class Login extends JFrame implements ActionListener {
 
     // Components of the SignUp Form
-    private JFrame frame = new JFrame();
-    private JLabel email = new JLabel("Email Address ");
-    private JLabel password = new JLabel("Password ");
-    private JTextField emailText = new JTextField();
-    private JPasswordField passwordText = new JPasswordField();
+    private final JFrame frame = new JFrame("Login Form");
+    private final JTextField emailText = new JTextField();
+    private final JPasswordField passwordText = new JPasswordField();
 
-    private JCheckBox term = new JCheckBox("Show Password");
-    private JButton sub = new JButton("Submit");
-    private JButton reset = new JButton("Reset");
-    private JButton back = new JButton("Back");
+    private final JButton sub = new JButton("Submit");
+    private final JButton reset = new JButton("Reset");
     private JLabel res;
 
     // constructor, to initialize the components
     // with default values.
     public Login() {
+        JLabel email = new JLabel("Email Address ");
         email.setFont(new Font("Arial", Font.PLAIN, 20));
         email.setSize(200, 20);
         email.setLocation(100, 100);
@@ -32,6 +29,7 @@ public class Login extends JFrame implements ActionListener {
         emailText.setSize(190, 20);
         emailText.setLocation(250, 100);
 
+        JLabel password = new JLabel("Password ");
         password.setFont(new Font("Arial", Font.PLAIN, 20));
         password.setSize(100, 20);
         password.setLocation(100, 150);
@@ -40,6 +38,7 @@ public class Login extends JFrame implements ActionListener {
         passwordText.setSize(150, 20);
         passwordText.setLocation(250, 150);
 
+        JCheckBox term = new JCheckBox("Show Password");
         term.setFont(new Font("Arial", Font.PLAIN, 15));
         term.setSize(250, 20);
         term.setLocation(150, 400);
@@ -54,12 +53,13 @@ public class Login extends JFrame implements ActionListener {
         reset.setLocation(270, 450);
         reset.addActionListener(this);
 
+        JButton back = new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 15));
         back.setSize(100, 20);
         back.setLocation(390, 450);
         back.addActionListener(e -> {
             frame.dispose();
-            MainMenu mainMenu = new MainMenu();
+            new MainMenu();
         });
 
         frame.add(email);

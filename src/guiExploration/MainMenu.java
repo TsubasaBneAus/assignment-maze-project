@@ -37,7 +37,7 @@ public class MainMenu extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 try {
                     frame.setVisible(false);
-                    SignUp sign = new SignUp();
+                    new SignUp();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -51,8 +51,8 @@ public class MainMenu extends JFrame implements ActionListener {
         log = new JButton("Login");
         log.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                Login log = new Login();
+                frame.dispose();
+                new Login();
             }
         });
         log.setFont(new Font("Arial", Font.PLAIN, 15));
