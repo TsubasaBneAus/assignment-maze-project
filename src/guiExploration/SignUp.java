@@ -1,6 +1,4 @@
-package guiExploration;// Java program to implement
-// a Simple Registration Form
-// using Java Swing
+package guiExploration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,18 +7,19 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The class for users to sign up their accounts
+ */
 public class SignUp extends JFrame implements ActionListener {
-
-    // Components of the SignUp Form
     private final JFrame frame = new JFrame("Registration Form");
-    private final JLabel firstName = new JLabel("First Name ");
-    private final JLabel lastName = new JLabel("Last Name ");
-    private final JLabel email = new JLabel("Email Address ");
-    private final JLabel password = new JLabel("Password ");
+    private final JLabel firstNameLabel = new JLabel("First Name ");
+    private final JLabel lastNameLabel = new JLabel("Last Name ");
+    private final JLabel emailLabel = new JLabel("Email Address ");
+    private final JLabel passwordLabel = new JLabel("Password ");
     private final JTextField firstNameText = new JTextField();
     private final JTextField lastNameText = new JTextField();
-    private final JTextField emailText;
-    private final JPasswordField passwordText;
+    private final JTextField emailText = new JTextField();
+    private final JPasswordField passwordText = new JPasswordField();
     private final JCheckBox term = new JCheckBox("Accept Terms And Conditions.");
     private final JButton sub = new JButton("Submit");
     private final JButton reset = new JButton("Reset");
@@ -30,38 +29,39 @@ public class SignUp extends JFrame implements ActionListener {
     public Connection connection = null;
 
 
-    public SignUp() throws SQLException {
-        firstName.setFont(new Font("Arial", Font.PLAIN, 20));
-        firstName.setSize(150, 20);
-        firstName.setLocation(100, 100);
+    /**
+     * The constructor for the "SignUp" class
+     */
+    public SignUp() {
+        firstNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        firstNameLabel.setSize(150, 20);
+        firstNameLabel.setLocation(100, 100);
 
         firstNameText.setFont(new Font("Arial", Font.PLAIN, 15));
         firstNameText.setSize(190, 20);
         firstNameText.setLocation(200, 100);
 
 
-        lastName.setFont(new Font("Arial", Font.PLAIN, 20));
-        lastName.setSize(150, 20);
-        lastName.setLocation(100, 150);
+        lastNameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        lastNameLabel.setSize(150, 20);
+        lastNameLabel.setLocation(100, 150);
 
         lastNameText.setFont(new Font("Arial", Font.PLAIN, 15));
         lastNameText.setSize(190, 20);
         lastNameText.setLocation(200, 150);
 
-        email.setFont(new Font("Arial", Font.PLAIN, 20));
-        email.setSize(150, 20);
-        email.setLocation(50, 200);
+        emailLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        emailLabel.setSize(150, 20);
+        emailLabel.setLocation(50, 200);
 
-        emailText = new JTextField();
         emailText.setFont(new Font("Arial", Font.PLAIN, 15));
         emailText.setSize(190, 20);
         emailText.setLocation(200, 200);
 
-        password.setFont(new Font("Arial", Font.PLAIN, 20));
-        password.setSize(100, 20);
-        password.setLocation(100, 250);
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        passwordLabel.setSize(100, 20);
+        passwordLabel.setLocation(100, 250);
 
-        passwordText = new JPasswordField();
         passwordText.setFont(new Font("Arial", Font.PLAIN, 15));
         passwordText.setSize(190, 20);
         passwordText.setLocation(200, 250);
@@ -98,13 +98,13 @@ public class SignUp extends JFrame implements ActionListener {
         res.setSize(500, 25);
         res.setLocation(100, 500);
 
-        frame.add(firstName);
+        frame.add(firstNameLabel);
         frame.add(firstNameText);
-        frame.add(lastName);
+        frame.add(lastNameLabel);
         frame.add(lastNameText);
-        frame.add(email);
+        frame.add(emailLabel);
         frame.add(emailText);
-        frame.add(password);
+        frame.add(passwordLabel);
         frame.add(passwordText);
         frame.add(term);
         frame.add(sub);
@@ -120,8 +120,11 @@ public class SignUp extends JFrame implements ActionListener {
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    /**
+     * The method activated when the "sub" and "reset"
+     * @param e the event to be processed
+     */
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == sub) {
             if (firstNameText.getText().equals("") && lastNameText.getText().equals("") && emailText.getText().equals("") && String.valueOf(passwordText.getPassword()).equals("")) {
                 JOptionPane.showMessageDialog(sub, "All Fields must be filled in to register an account!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
@@ -175,7 +178,75 @@ public class SignUp extends JFrame implements ActionListener {
         }
     }
 
-    public String getEmail() {
-        return emailText.getText();
+    /**
+     * The method for getting the title of the "frame"
+     * @return "frame.getTitle()"
+     */
+    public String getFrameName() {
+        return frame.getTitle();
+    }
+
+    /**
+     * The method for getting the text of the "firstNameLabel"
+     * @return "firstNameLabel.getText()"
+     */
+    public String getFirstNameLabel() {
+        return firstNameLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "lastNameLabel"
+     * @return "lastNameLabel.getText()"
+     */
+    public String getLastNameLabel() {
+        return lastNameLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "emailLabel"
+     * @return "emailLabel.getText()"
+     */
+    public String getEmailLabel() {
+        return emailLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "passwordLabel"
+     * @return "passwordLabel.getText()"
+     */
+    public String getPasswordLabel() {
+        return passwordLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "term"
+     * @return "term.getText()"
+     */
+    public String getTerm() {
+        return term.getText();
+    }
+
+    /**
+     * The method for getting the text of the "sub"
+     * @return "sub.getText()"
+     */
+    public String getSub() {
+        return sub.getText();
+    }
+
+    /**
+     * The method for getting the text of the "reset"
+     * @return "reset.getText()"
+     */
+    public String getReset() {
+        return reset.getText();
+    }
+
+    /**
+     * The method for getting the text of the "back"
+     * @return "back.getText()"
+     */
+    public String getBack() {
+        return back.getText();
     }
 }

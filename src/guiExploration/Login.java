@@ -8,73 +8,55 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ *  The class for users to login
+ */
 public class Login extends JFrame implements ActionListener {
     private final JFrame frame = new JFrame("Login Form");
-    private final JLabel Email;
-    private final JLabel Password;
-    private final JTextField email;
-    private final JPasswordField password;
-    private final JCheckBox term;
-    private final JButton sub;
-    private final JButton reset;
-    private final JButton back;
+    private final JLabel emailLabel = new JLabel("Email Address ");
+    private final JLabel passwordLabel = new JLabel("Password ");
+    private final JTextField emailText = new JTextField();
+    private final JPasswordField passwordText = new JPasswordField();
+    private final JCheckBox term = new JCheckBox("Show Password");
+    private final JButton sub = new JButton("Submit");
+    private final JButton reset = new JButton("Reset");
+    private final JButton back = new JButton("Back");
     public Connection connection = null;
 
+    /**
+     * The constructor for the "Login" class
+     */
     public Login() {
-        frame.setTitle("Login Form");
-        frame.setBounds(300, 90, 700, 700);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setLayout(null);
+        emailLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        emailLabel.setSize(200, 20);
+        emailLabel.setLocation(100, 100);
 
+        emailText.setFont(new Font("Arial", Font.PLAIN, 15));
+        emailText.setSize(190, 20);
+        emailText.setLocation(250, 100);
 
-        Email = new JLabel("Email Address ");
-        Email.setFont(new Font("Arial", Font.PLAIN, 20));
-        Email.setSize(200, 20);
-        Email.setLocation(100, 100);
-        frame.add(Email);
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        passwordLabel.setSize(100, 20);
+        passwordLabel.setLocation(100, 150);
 
-        email = new JTextField();
-        email.setFont(new Font("Arial", Font.PLAIN, 15));
-        email.setSize(190, 20);
-        email.setLocation(250, 100);
-        frame.add(email);
+        passwordText.setFont(new Font("Arial", Font.PLAIN, 15));
+        passwordText.setSize(150, 20);
+        passwordText.setLocation(250, 150);
 
-
-        Password = new JLabel("Password ");
-        Password.setFont(new Font("Arial", Font.PLAIN, 20));
-        Password.setSize(100, 20);
-        Password.setLocation(100, 150);
-        frame.add(Password);
-
-        password = new JPasswordField();
-        password.setFont(new Font("Arial", Font.PLAIN, 15));
-        password.setSize(150, 20);
-        password.setLocation(250, 150);
-        frame.add(password);
-
-
-        term = new JCheckBox("Show Password");
         term.setFont(new Font("Arial", Font.PLAIN, 15));
         term.setSize(250, 20);
         term.setLocation(150, 400);
-        frame.add(term);
 
-        sub = new JButton("Submit");
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
         sub.setSize(100, 20);
         sub.setLocation(150, 450);
         sub.addActionListener(this);
-        frame.add(sub);
 
-        reset = new JButton("Reset");
         reset.setFont(new Font("Arial", Font.PLAIN, 15));
         reset.setSize(100, 20);
         reset.setLocation(270, 450);
         reset.addActionListener(this);
-        frame.add(reset);
 
-        back = new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 15));
         back.setSize(100, 20);
         back.setLocation(390, 450);
@@ -82,17 +64,31 @@ public class Login extends JFrame implements ActionListener {
             new MainMenu();
             frame.dispose();
         });
+
+        frame.add(emailLabel);
+        frame.add(emailText);
+        frame.add(passwordLabel);
+        frame.add(passwordText);
+        frame.add(term);
+        frame.add(sub);
+        frame.add(reset);
         frame.add(back);
+
+        frame.setBounds(300, 90, 700, 700);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    /**
+     * The method activated when the "sub" and "reset"
+     * @param e the event to be processed
+     */
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getSource() == sub);
         if (e.getSource() == sub) {
-            System.out.println(email.getText());
-            System.out.println(password.getPassword().toString());
-            if (email.getText().equals("") || String.valueOf(password.getPassword()).equals("")) {
+            if (emailText.getText().equals("") || String.valueOf(passwordText.getPassword()).equals("")) {
                 JOptionPane.showMessageDialog(sub, "All fields need to be filled up to login!", "Login Failed", JOptionPane.ERROR_MESSAGE);
             } else {
                 Statement statement = null;
@@ -100,18 +96,18 @@ public class Login extends JFrame implements ActionListener {
                     connection = DBConnection.getInstance();
                     statement = connection.createStatement();
                     statement.setQueryTimeout(30);  // set timeout to 30 sec.
-                    ResultSet rs = statement.executeQuery("select * from main.Users where Email = '" + email.getText() + "' and Password='" + String.valueOf(password.getPassword()) + "'");
+                    ResultSet rs = statement.executeQuery("select * from main.Users where Email = '" + emailText.getText() + "' and Password='" + String.valueOf(passwordText.getPassword()) + "'");
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(sub, "You have logged in successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-                        new MazeGUI(email.getText());
+                        new MazeGUI(emailText.getText());
                         frame.dispose();
                     } else {
                         JOptionPane.showMessageDialog(sub, "Unable to confirm your credential", "Login failed", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    email.setText("");
-                    password.setText("");
+                    emailText.setText("");
+                    passwordText.setText("");
                     term.setEnabled(true);
                     JOptionPane.showMessageDialog(sub, "Unable to confirm your credential", "Login failed", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -119,8 +115,64 @@ public class Login extends JFrame implements ActionListener {
         }
         if (e.getSource() == reset) {
             String def = "";
-            email.setText(def);
-            password.setText(def);
+            emailText.setText(def);
+            passwordText.setText(def);
         }
+    }
+
+    /**
+     * The method for getting the title of the "frame"
+     * @return "frame.getTitle()"
+     */
+    public String getFrameName() {
+        return frame.getTitle();
+    }
+
+    /**
+     * The method for getting the text of the "emailLabel"
+     * @return "emailLabel.getText()"
+     */
+    public String getEmailLabel() {
+        return emailLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "passwordLabel"
+     * @return "passwordLabel.getText()"
+     */
+    public String getPasswordLabel() {
+        return passwordLabel.getText();
+    }
+
+    /**
+     * The method for getting the text of the "term"
+     * @return "term.getText()"
+     */
+    public String getTerm() {
+        return term.getText();
+    }
+
+    /**
+     * The method for getting the text of the "sub"
+     * @return "sub.getText()"
+     */
+    public String getSub() {
+        return sub.getText();
+    }
+
+    /**
+     * The method for getting the text of the "reset"
+     * @return "reset.getText()"
+     */
+    public String getReset() {
+        return reset.getText();
+    }
+
+    /**
+     * The method for getting the text of the "back"
+     * @return "back.getText()"
+     */
+    public String getBack() {
+        return back.getText();
     }
 }
