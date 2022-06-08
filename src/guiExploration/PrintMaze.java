@@ -32,7 +32,7 @@ public class PrintMaze extends JPanel {
     }
 
     /**
-     * The method for getting "importedImage1"
+     * The method for getting the value of "importedImage1"
      * @return "importedImage1"
      */
     public File getImportedImage1() {
@@ -40,7 +40,7 @@ public class PrintMaze extends JPanel {
     }
 
     /**
-     * The method for getting "importedImage2"
+     * The method for getting the value of "importedImage2"
      * @return "importedImage2"
      */
     public BufferedImage getImportedImage2() {

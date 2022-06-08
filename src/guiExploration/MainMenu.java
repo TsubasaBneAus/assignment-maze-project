@@ -1,8 +1,6 @@
 package guiExploration;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,11 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class MainMenu extends JFrame implements ActionListener {
-    private JButton reg;
-    private JButton log;
-    private JButton exit;
+/**
+ * The class for displaying the main menu of this maze application
+ */
+public class MainMenu extends JFrame {
 
+    /**
+     * The constructor for this "MainMenu" class
+     */
     public MainMenu() {
         JFrame frame = new JFrame("Main Menu");
         JPanel menuPane = new JPanel();
@@ -32,46 +33,34 @@ public class MainMenu extends JFrame implements ActionListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JPanel buttons = new JPanel(new GridBagLayout());
-        reg = new JButton("Sign Up");
-        reg.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    frame.setVisible(false);
-                    new SignUp();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+        JButton reg = new JButton("Sign Up");
+        reg.addActionListener(e -> {
+            try {
+                frame.setVisible(false);
+                new SignUp();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-
         });
         reg.setFont(new Font("Arial", Font.PLAIN, 15));
         buttons.add(reg);
         buttons.setSize(100, 50);
 
-        log = new JButton("Login");
-        log.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                new Login();
-            }
+        JButton log = new JButton("Login");
+        log.addActionListener(e -> {
+            frame.dispose();
+            new Login();
         });
         log.setFont(new Font("Arial", Font.PLAIN, 15));
         buttons.add(log);
         buttons.setBounds(50, 50, 100, 100);
 
-        exit = new JButton("Exit");
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-
-        });
+        JButton exit = new JButton("Exit");
+        exit.addActionListener(e -> System.exit(0));
         exit.setFont(new Font("Arial", Font.PLAIN, 15));
         buttons.add(exit);
         buttons.setBounds(50, 50, 100, 100);
         gbc.weighty = 1;
-
-
 
         menuPane.add(buttons, gbc);
         frame.setSize(1440, 1220);
@@ -83,11 +72,6 @@ public class MainMenu extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         new MainMenu();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }
 

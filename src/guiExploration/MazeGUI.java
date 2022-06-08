@@ -2,11 +2,12 @@ package guiExploration;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 
-
-public class MazeGUI extends JFrame implements ActionListener, MouseListener {
+/**
+ * The class for displaying the GUI for the maze program
+ */
+public class MazeGUI extends JFrame  {
     private static int rows;
     private static int columns;
     private static int[][] mazeArray;
@@ -14,32 +15,83 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
     private static final int defaultRows = 10;
     private static final int defaultColumns = 10;
     private static final Object[] arrayForDifferentDataTypes = new Object[3];
-    private static JPanel panelForButtons;
     private static File imageFile = null;
     private static final JToggleButton buttonStart = new JToggleButton("Select the starting block");
     private static final JToggleButton buttonEnd = new JToggleButton("Select the ending block");
     private static final JToggleButton buttonImageLocation = new JToggleButton("Select a block to locate an image");
 
+    /**
+     * The constructor of this "MazeGUI" class
+     */
+    public MazeGUI() {
+        JFrame frame = new JFrame("Maze Builder");
+        frame.setSize(1440,1000);
+        JPanel panelOnTheLeft = new JPanel();
+        JPanel panelOnTheRight = new JPanel();
+        frame.setLayout(new BorderLayout());
+        mazeArray = new int[defaultRows][defaultColumns];
+        for (int i = 0; i < rows; i++) {
+            for (int k = 0; k < columns; k++) {
+                mazeArray[i][k] = 1;
+            }
+        }
+        arrayForDifferentDataTypes[0] = defaultRows;
+        arrayForDifferentDataTypes[1] = defaultColumns;
+        arrayForDifferentDataTypes[2] = mazeArray;
+        CreateSelectionButtons(panelOnTheLeft, defaultRows, defaultColumns);
+        CreateInputSection(panelOnTheLeft, panelOnTheRight);
+        JScrollPane scrollPane = new JScrollPane(panelOnTheLeft, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(1000, 600));
+        frame.add(scrollPane, BorderLayout.WEST);
+        frame.add(panelOnTheRight, BorderLayout.EAST);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    /**
+     * The method for getting the value of "defaultRows"
+     * @return "defaultRows"
+     */
     public int getDefaultRows() {
         return defaultRows;
     }
 
+    /**
+     * The method for getting the value of "defaultColumns"
+     * @return "defaultColumns"
+     */
     public int getDefaultColumns() {
         return defaultColumns;
     }
 
+    /**
+     * The method for getting the value of "mazeArray"
+     * @return "mazeArray"
+     */
     public int[][] getMazeArray() {
         return mazeArray;
     }
 
+    /**
+     * The method for getting the value of "buttons"
+     * @return "buttons"
+     */
     public JButton[][] getButtons() {
         return buttons;
     }
 
+    /**
+     * The method for getting the value of "arrayForDifferentDataTypes"
+     * @return "arrayForDifferentDataTypes"
+     */
     public Object[] getArrayForDifferentDataTypes() {
         return arrayForDifferentDataTypes;
     }
 
+    /**
+     * The method for getting the value of "imageFile"
+     * @return "imageFile"
+     */
     public File getImageFile() {
         return imageFile;
     }
@@ -66,7 +118,6 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
         JPanel panelForRows = new JPanel();
         JPanel panelForColumns = new JPanel();
 
-        // Generate a maze that a user customised
         buttonGenerate.addActionListener(e -> {
             JFrame customisedMaze = new JFrame("Customised Maze");
             arrayForDifferentDataTypes[0] = rows;
@@ -74,11 +125,10 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
             arrayForDifferentDataTypes[2] = mazeArray;
             PrintMaze printMaze = new PrintMaze(rows, columns, mazeArray, imageFile);
             customisedMaze.add(printMaze);
-            customisedMaze.setSize(800, 800);
+            customisedMaze.setSize(15 * columns, 15 * rows);
             customisedMaze.setVisible(true);
         });
 
-        // Generate a random maze
         buttonRandom.addActionListener(e -> {
             JFrame randomMaze = new JFrame("Random Maze");
             RandomGeneration randGen = new RandomGeneration(imageFile);
@@ -234,7 +284,7 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
                 mazeArray[i][k] = 1;
             }
         }
-        panelForButtons = new JPanel();
+        JPanel panelForButtons = new JPanel();
         panelForButtons.setLayout(new GridLayout(currentRows, currentColumns));
         buttons = new JButton[currentRows][currentColumns];
 
@@ -308,91 +358,10 @@ public class MazeGUI extends JFrame implements ActionListener, MouseListener {
     }
 
     /**
-     * The main method to run this "MazeGUI"
+     * The main method for this application
      */
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Maze Builder");
-        frame.setSize(1440,1000);
-        JPanel panelOnTheLeft = new JPanel();
-        JPanel panelOnTheRight = new JPanel();
-        frame.setLayout(new BorderLayout());
-        mazeArray = new int[defaultRows][defaultColumns];
-        for (int i = 0; i < rows; i++) {
-            for (int k = 0; k < columns; k++) {
-                mazeArray[i][k] = 1;
-            }
-        }
-        arrayForDifferentDataTypes[0] = defaultRows;
-        arrayForDifferentDataTypes[1] = defaultColumns;
-        arrayForDifferentDataTypes[2] = mazeArray;
-        CreateSelectionButtons(panelOnTheLeft, defaultRows, defaultColumns);
-        CreateInputSection(panelOnTheLeft, panelOnTheRight);
-        JScrollPane scrollPane = new JScrollPane(panelOnTheLeft, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(1000, 600));
-        frame.add(scrollPane, BorderLayout.WEST);
-        frame.add(panelOnTheRight, BorderLayout.EAST);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
-    /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    /**
-     * Invoked when the mouse button has been clicked (pressed
-     * and released) on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when a mouse button has been pressed on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when a mouse button has been released on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when the mouse enters a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    /**
-     * Invoked when the mouse exits a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+        new MainMenu();
+        new MazeGUI();
     }
 }

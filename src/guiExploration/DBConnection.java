@@ -8,17 +8,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * The class for connecting the maze program to the database
+ */
 public class DBConnection {
-
-    /**
-     * The singleton instance of the database connection.
-     */
     private static Connection instance = null;
 
     /**
-     * Constructor intializes the connection.
+     * The constructor for initialising the database connection
      */
-    private DBConnection() {
+    public DBConnection() {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
@@ -44,9 +43,9 @@ public class DBConnection {
     }
 
     /**
-     * Provides global access to the singleton instance of the UrlSet.
+     * The method for provides global access to the singleton instance of the UrlSet.
      *
-     * @return a handle to the singleton instance of the UrlSet.
+     * @return "instance"
      */
     public static Connection getInstance() {
         if (instance == null) {

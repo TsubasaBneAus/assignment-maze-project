@@ -37,7 +37,7 @@ public class RandomGeneration {
     }
 
     /**
-     * The method for getting "rows"
+     * The method for getting the value of "rows"
      * @return "rows"
      */
     public int getRows() {
@@ -45,7 +45,7 @@ public class RandomGeneration {
     }
 
     /**
-     * The method for getting "columns"
+     * The method for getting the value of "columns"
      * @return "columns"
      */
     public int getColumns() {
@@ -53,7 +53,7 @@ public class RandomGeneration {
     }
 
     /**
-     * The method for getting "mazeArray"
+     * The method for getting the value of "mazeArray"
      * @return "mazeArray"
      */
     public int[][] getMazeArray() {

@@ -10,8 +10,6 @@ import java.io.IOException;
 
 /**
  * The class for exporting the generated maze as an image file
- *
- * @author Tsubasa Endo
  */
 public class ExportImage extends JPanel {
 
@@ -40,7 +38,7 @@ public class ExportImage extends JPanel {
     }
 
     /**
-     * The method for getting "importedImage1"
+     * The method for getting the value of "importedImage1"
      *
      * @return "importedImage1"
      */
@@ -49,7 +47,7 @@ public class ExportImage extends JPanel {
     }
 
     /**
-     * The method for getting "importedImage2"
+     * The method for getting the value of "importedImage2"
      *
      * @return "importedImage2"
      */

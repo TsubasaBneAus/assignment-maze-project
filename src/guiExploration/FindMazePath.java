@@ -42,7 +42,7 @@ public class FindMazePath {
     }
 
     /**
-     * The method for getting "rows"
+     * The method for getting the value of "rows"
      * @return "rows"
      */
     public int getRows() {
@@ -50,7 +50,7 @@ public class FindMazePath {
     }
 
     /**
-     * The method for getting "columns"
+     * The method for getting the value of "columns"
      * @return "columns"
      */
     public int getColumns() {
@@ -58,7 +58,7 @@ public class FindMazePath {
     }
 
     /**
-     * The method for getting "solvedMazeArray"
+     * The method for getting the value of "solvedMazeArray"
      *
      * @return "solvedMazeArray"
      */

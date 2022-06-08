@@ -1,11 +1,12 @@
-package guiExploration;// Java program to implement
-// a Simple Registration Form
-// using Java Swing
+package guiExploration;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * The class for displaying a login page
+ */
 public class Login extends JFrame implements ActionListener {
 
     // Components of the SignUp Form
@@ -17,8 +18,9 @@ public class Login extends JFrame implements ActionListener {
     private final JButton reset = new JButton("Reset");
     private JLabel res;
 
-    // constructor, to initialize the components
-    // with default values.
+    /**
+     * The constructor for this "Login" class
+     */
     public Login() {
         JLabel email = new JLabel("Email Address ");
         email.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -78,9 +80,10 @@ public class Login extends JFrame implements ActionListener {
         frame.setSize(600, 600);
     }
 
-    // method actionPerformed()
-    // to get the action performed
-    // by the user and act accordingly
+    /**
+     * The method being activated when the "sub" or "reset" are clicked
+     * @param e the event to be processed
+     */
     public void actionPerformed(ActionEvent e) {
 //        if (email.getText() == ""){
 //            JOptionPane.showMessageDialog(null, "The email field is empty. Please fill in all details to Login!", "Login Failed!",JOptionPane.ERROR_MESSAGE);
@@ -118,11 +121,3 @@ public class Login extends JFrame implements ActionListener {
 
     }
 }
-
-// Driver Code
-//class SignIn {
-//
-//    public static void main(String[] args) throws Exception {
-//        Login login = new Login();
-//    }
-//}

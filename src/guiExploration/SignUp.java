@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The class for displaying a sign-up page
+ */
 public class SignUp extends JFrame implements ActionListener {
 
     // Components of the SignUp Form
@@ -25,9 +28,10 @@ public class SignUp extends JFrame implements ActionListener {
     private JTextArea resadd;
     public Connection connection = null;
 
-
-    // constructor, to initialize the components
-    // with default values.
+    /**
+     * The constructor for this "SingUp" class
+     * @throws SQLException
+     */
     public SignUp() throws SQLException {
 //        connection = DriverManager.getConnection("jdbc:sqlite:C://Users/User/IdeaProjects/Maze-project/MazeDesign.db");
 
@@ -133,9 +137,10 @@ public class SignUp extends JFrame implements ActionListener {
         frame.setSize(700, 700);
     }
 
-    // method actionPerformed()
-    // to get the action performed
-    // by the user and act accordingly
+    /**
+     * The method being activated when the "sub" or "reset" are clicked
+     * @param e the event to be processed
+     */
     public void actionPerformed(ActionEvent e) {
 //        if (e.getSource() == sub) {
 //            if (term.isSelected() ) {
@@ -230,12 +235,3 @@ public class SignUp extends JFrame implements ActionListener {
         // }
     }
 }
-
-// Driver Code
-//class Registration {
-//
-//    public static void main(String[] args) throws Exception {
-//
-//        SignUp f = new SignUp();
-//    }
-//}
