@@ -3,121 +3,124 @@ package guiExploration;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
-/**
- * The class for displaying a login page
- */
 public class Login extends JFrame implements ActionListener {
-
-    // Components of the SignUp Form
     private final JFrame frame = new JFrame("Login Form");
-    private final JTextField emailText = new JTextField();
-    private final JPasswordField passwordText = new JPasswordField();
+    private final JLabel Email;
+    private final JLabel Password;
+    private final JTextField email;
+    private final JPasswordField password;
+    private final JCheckBox term;
+    private final JButton sub;
+    private final JButton reset;
+    private final JButton back;
+    public Connection connection = null;
 
-    private final JButton sub = new JButton("Submit");
-    private final JButton reset = new JButton("Reset");
-    private JLabel res;
-
-    /**
-     * The constructor for this "Login" class
-     */
     public Login() {
-        JLabel email = new JLabel("Email Address ");
-        email.setFont(new Font("Arial", Font.PLAIN, 20));
-        email.setSize(200, 20);
-        email.setLocation(100, 100);
+        frame.setTitle("Login Form");
+        frame.setBounds(300, 90, 700, 700);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setLayout(null);
 
-        emailText.setFont(new Font("Arial", Font.PLAIN, 15));
-        emailText.setSize(190, 20);
-        emailText.setLocation(250, 100);
 
-        JLabel password = new JLabel("Password ");
-        password.setFont(new Font("Arial", Font.PLAIN, 20));
-        password.setSize(100, 20);
-        password.setLocation(100, 150);
+        Email = new JLabel("Email Address ");
+        Email.setFont(new Font("Arial", Font.PLAIN, 20));
+        Email.setSize(200, 20);
+        Email.setLocation(100, 100);
+        frame.add(Email);
 
-        passwordText.setFont(new Font("Arial", Font.PLAIN, 15));
-        passwordText.setSize(150, 20);
-        passwordText.setLocation(250, 150);
+        email = new JTextField();
+        email.setFont(new Font("Arial", Font.PLAIN, 15));
+        email.setSize(190, 20);
+        email.setLocation(250, 100);
+        frame.add(email);
 
-        JCheckBox term = new JCheckBox("Show Password");
+
+        Password = new JLabel("Password ");
+        Password.setFont(new Font("Arial", Font.PLAIN, 20));
+        Password.setSize(100, 20);
+        Password.setLocation(100, 150);
+        frame.add(Password);
+
+        password = new JPasswordField();
+        password.setFont(new Font("Arial", Font.PLAIN, 15));
+        password.setSize(150, 20);
+        password.setLocation(250, 150);
+        frame.add(password);
+
+
+        term = new JCheckBox("Show Password");
         term.setFont(new Font("Arial", Font.PLAIN, 15));
         term.setSize(250, 20);
         term.setLocation(150, 400);
+        frame.add(term);
 
+        sub = new JButton("Submit");
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
         sub.setSize(100, 20);
         sub.setLocation(150, 450);
         sub.addActionListener(this);
+        frame.add(sub);
 
+        reset = new JButton("Reset");
         reset.setFont(new Font("Arial", Font.PLAIN, 15));
         reset.setSize(100, 20);
         reset.setLocation(270, 450);
         reset.addActionListener(this);
+        frame.add(reset);
 
-        JButton back = new JButton("Back");
+        back = new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 15));
         back.setSize(100, 20);
         back.setLocation(390, 450);
         back.addActionListener(e -> {
-            frame.dispose();
             new MainMenu();
+            frame.dispose();
         });
-
-        frame.add(email);
-        frame.add(emailText);
-        frame.add(password);
-        frame.add(passwordText);
-        frame.add(term);
-        frame.add(sub);
-        frame.add(reset);
         frame.add(back);
-
-        frame.setTitle("Login Form");
-        frame.setResizable(false);
-        frame.setLayout(null);
         frame.setVisible(true);
-        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    /**
-     * The method being activated when the "sub" or "reset" are clicked
-     * @param e the event to be processed
-     */
     public void actionPerformed(ActionEvent e) {
-//        if (email.getText() == ""){
-//            JOptionPane.showMessageDialog(null, "The email field is empty. Please fill in all details to Login!", "Login Failed!",JOptionPane.ERROR_MESSAGE);
-//        } else if (password.getPassword().toString() == ""){
-//            JOptionPane.showMessageDialog(null, "The password field is empty. Please fill in all details to Login!", "Login Failed!",JOptionPane.ERROR_MESSAGE);
-//
-//        }
         System.out.println(e.getSource() == sub);
         if (e.getSource() == sub) {
-            System.out.println(emailText.getText());
-            if (emailText.getText().equals("") || passwordText.getPassword().equals("")) {
-//                System.out.println("masuk sini");
+            System.out.println(email.getText());
+            System.out.println(password.getPassword().toString());
+            if (email.getText().equals("") || String.valueOf(password.getPassword()).equals("")) {
                 JOptionPane.showMessageDialog(sub, "All fields need to be filled up to login!", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else if (passwordText.getPassword().equals("") && emailText.getText().equals("")) {
-                JOptionPane.showMessageDialog(sub, "All the fields need to be filled up to login!", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            } else
-                JOptionPane.showMessageDialog(sub, "You have logged in successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
-
-//            if (e.getSource() == sub && email.getText() == "" && password.getPassword().toString() == ""){
-//            JOptionPane.showMessageDialog(sub, "Fill up all fields to login", "LoginFailed!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Statement statement = null;
+                try {
+                    connection = DBConnection.getInstance();
+                    statement = connection.createStatement();
+                    statement.setQueryTimeout(30);  // set timeout to 30 sec.
+                    ResultSet rs = statement.executeQuery("select * from main.Users where Email = '" + email.getText() + "' and Password='" + String.valueOf(password.getPassword()) + "'");
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(sub, "You have logged in successfully!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
+                        new MazeGUI(email.getText());
+                        frame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(sub, "Unable to confirm your credential", "Login failed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    email.setText("");
+                    password.setText("");
+                    term.setEnabled(true);
+                    JOptionPane.showMessageDialog(sub, "Unable to confirm your credential", "Login failed", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         }
-//        else
-//            JOptionPane.showMessageDialog(sub, "You have successfully logged in!", "Login Success!", JOptionPane.INFORMATION_MESSAGE);
-
-//        } else {
-//            JOptionPane.showMessageDialog(sub, "Agree to the terms and conditions to Sign Up!",
-//                    "Try Again!!", JOptionPane.ERROR_MESSAGE);
-//        }
         if (e.getSource() == reset) {
             String def = "";
-            emailText.setText(def);
-            passwordText.setText(def);
+            email.setText(def);
+            password.setText(def);
         }
-
-
     }
 }

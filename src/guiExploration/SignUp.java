@@ -9,33 +9,28 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * The class for displaying a sign-up page
- */
 public class SignUp extends JFrame implements ActionListener {
 
     // Components of the SignUp Form
     private final JFrame frame = new JFrame("Registration Form");
+    private final JLabel firstName = new JLabel("First Name ");
+    private final JLabel lastName = new JLabel("Last Name ");
+    private final JLabel email = new JLabel("Email Address ");
+    private final JLabel password = new JLabel("Password ");
     private final JTextField firstNameText = new JTextField();
     private final JTextField lastNameText = new JTextField();
     private final JTextField emailText;
     private final JPasswordField passwordText;
-
     private final JCheckBox term = new JCheckBox("Accept Terms And Conditions.");
     private final JButton sub = new JButton("Submit");
     private final JButton reset = new JButton("Reset");
+    private final JButton back = new JButton("Back");
     private final JTextArea userOutput = new JTextArea();
-    private JTextArea resadd;
+    private final JLabel res = new JLabel("");
     public Connection connection = null;
 
-    /**
-     * The constructor for this "SingUp" class
-     * @throws SQLException
-     */
-    public SignUp() throws SQLException {
-//        connection = DriverManager.getConnection("jdbc:sqlite:C://Users/User/IdeaProjects/Maze-project/MazeDesign.db");
 
-        JLabel firstName = new JLabel("First Name ");
+    public SignUp() throws SQLException {
         firstName.setFont(new Font("Arial", Font.PLAIN, 20));
         firstName.setSize(150, 20);
         firstName.setLocation(100, 100);
@@ -45,7 +40,6 @@ public class SignUp extends JFrame implements ActionListener {
         firstNameText.setLocation(200, 100);
 
 
-        JLabel lastName = new JLabel("Last Name ");
         lastName.setFont(new Font("Arial", Font.PLAIN, 20));
         lastName.setSize(150, 20);
         lastName.setLocation(100, 150);
@@ -54,7 +48,6 @@ public class SignUp extends JFrame implements ActionListener {
         lastNameText.setSize(190, 20);
         lastNameText.setLocation(200, 150);
 
-        JLabel email = new JLabel("Email Address ");
         email.setFont(new Font("Arial", Font.PLAIN, 20));
         email.setSize(150, 20);
         email.setLocation(50, 200);
@@ -64,7 +57,6 @@ public class SignUp extends JFrame implements ActionListener {
         emailText.setSize(190, 20);
         emailText.setLocation(200, 200);
 
-        JLabel password = new JLabel("Password ");
         password.setFont(new Font("Arial", Font.PLAIN, 20));
         password.setSize(100, 20);
         password.setLocation(100, 250);
@@ -88,7 +80,6 @@ public class SignUp extends JFrame implements ActionListener {
         reset.setLocation(270, 450);
         reset.addActionListener(this);
 
-        JButton back = new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 15));
         back.setSize(100, 20);
         back.setLocation(390, 450);
@@ -103,18 +94,9 @@ public class SignUp extends JFrame implements ActionListener {
         userOutput.setLineWrap(true);
         userOutput.setEditable(false);
 
-        JLabel res = new JLabel("");
         res.setFont(new Font("Arial", Font.PLAIN, 20));
         res.setSize(500, 25);
         res.setLocation(100, 500);
-
-//        resadd = new JTextArea();
-//        resadd.setFont(new Font("Arial", Font.PLAIN, 15));
-//        resadd.setSize(200, 75);
-//        resadd.setLocation(580, 175);
-//        resadd.setLineWrap(true);
-//        c.add(resadd);
-
 
         frame.add(firstName);
         frame.add(firstNameText);
@@ -135,58 +117,21 @@ public class SignUp extends JFrame implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setSize(700, 700);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    /**
-     * The method being activated when the "sub" or "reset" are clicked
-     * @param e the event to be processed
-     */
     public void actionPerformed(ActionEvent e) {
-//        if (e.getSource() == sub) {
-//            if (term.isSelected() ) {
-//                String data1;
-//                String data
-//                        = "Full Name: "
-//                        + Fname.getText() + Lname.getText() + "\n"
-//                        + "Email : "
-//                        + email.getText() + "\n"
-//                        + "Password : "
-//                        + password.getPassword() + "\n";
-//                UserOutput.setText(data);
-//                UserOutput.setEditable(false);
-//                Fname.setText("");
-//                Lname.setText("");
-//                email.setText("");
-//                password.setText("");
-//                term.setEnabled(false);
-//
-//                JOptionPane.showMessageDialog(sub, "You have successfully created your account!", "Account Registration",JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                JOptionPane.showMessageDialog(sub, "Invalid Input in one of the fields or user has not agreed to terms and conditions!",
-//                        "Sign Up Failed!", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//        else if (e.getSource() == reset) {
-//            String def = "";
-//            Fname.setText(def);
-//            Lname.setText(def);
-//            email.setText(def);
-//            password.setText(def);
-//            UserOutput.setText(def);
-//            term.setSelected(false);
-//            term.setEnabled(true);
-//            resadd.setText(def);
-//        }
+
         if (e.getSource() == sub) {
             if (firstNameText.getText().equals("") && lastNameText.getText().equals("") && emailText.getText().equals("") && String.valueOf(passwordText.getPassword()).equals("")) {
                 JOptionPane.showMessageDialog(sub, "All Fields must be filled in to register an account!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
-            } else if (firstNameText.getText().matches("^[a-zA-Z]*$") && lastNameText.getText().matches("^[a-zA-Z]*$") && term.isSelected()) {
+            } else if (!firstNameText.getText().matches("^[a-zA-Z]*$") || !lastNameText.getText().matches("^[a-zA-Z]*$") || !term.isSelected()) {
                 JOptionPane.showMessageDialog(sub, "First name and last name should only contain alphabets!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
-            } else if (emailText.getText().matches("^(.+)@(.+)$")) {
+            } else if (!emailText.getText().matches("^(.+)@(.+)$")) {
                 JOptionPane.showMessageDialog(sub, "Email should be in the right format!!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
-            } else if (passwordText.getPassword().toString().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")) {
+            } else if (!String.valueOf(passwordText.getPassword()).matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")) {
                 JOptionPane.showMessageDialog(sub, "Password should contain uppercase, lowercase, numbers, and special characters!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
-                String data1;
+            } else {
                 String data
                         = "Full Name: "
                         + firstNameText.getText() + lastNameText.getText() + "\n"
@@ -201,7 +146,7 @@ public class SignUp extends JFrame implements ActionListener {
                     connection = DBConnection.getInstance();
                     statement = connection.createStatement();
                     statement.setQueryTimeout(30);  // set timeout to 30 sec.
-                    statement.executeUpdate("insert into main.Users (FirstName,LastName, Email, Password) values ('" + firstNameText.getText() + "','" + lastNameText.getText() + "','" + emailText.getText() + "','" + passwordText.getPassword().toString() + "')");
+                    statement.executeUpdate("insert into main.Users (FirstName,LastName, Email, Password) values ('" + firstNameText.getText() + "','" + lastNameText.getText() + "','" + emailText.getText() + "','" + String.valueOf(passwordText.getPassword()) + "')");
                     //ResultSet rs = statement.executeQuery("select * from User");
 
                 } catch (SQLException ex) {
@@ -214,11 +159,9 @@ public class SignUp extends JFrame implements ActionListener {
                     term.setEnabled(true);
                 }
 
-
                 JOptionPane.showMessageDialog(sub, "You have successfully created your account!", "Account Registration", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(sub, "Invalid Input in one of the fields or user has not agreed to terms and conditions!",
-                        "Sign Up Failed!", JOptionPane.ERROR_MESSAGE);
+                new MazeGUI(emailText.getText());
+                frame.dispose();
             }
         } else if (e.getSource() == reset) {
             String def = "";
@@ -229,9 +172,10 @@ public class SignUp extends JFrame implements ActionListener {
             userOutput.setText(def);
             term.setSelected(false);
             term.setEnabled(true);
-            resadd.setText(def);
-        } // else if (Fname.getText().equals("") && Lname.getText().equals("") && email.getText().equals("") && password.getPassword().toString().equals("")){
-        //         JOptionPane.showMessageDialog(sub, "All Fields must be filled in to register an account!", "Registration Failed!", JOptionPane.ERROR_MESSAGE);
-        // }
+        }
+    }
+
+    public String getEmail() {
+        return emailText.getText();
     }
 }

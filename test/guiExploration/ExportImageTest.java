@@ -7,7 +7,7 @@ import java.io.File;
 
 class ExportImageTest {
     RandomGeneration randGen = new RandomGeneration(null);
-    ExportImage exportImage = new ExportImage(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), null, "TestMaze");
+    ExportImage exportImage = new ExportImage(randGen.getRows(), randGen.getColumns(), randGen.getMazeArray(), null, "TestMaze", "Sample@gmail.com");
 
     @Test
     void saveImage() {

@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
  * The class for displaying the main menu of this maze application
  */
 public class MainMenu extends JFrame {
+    private String email;
 
     /**
      * The constructor for this "MainMenu" class
@@ -36,7 +37,7 @@ public class MainMenu extends JFrame {
         JButton reg = new JButton("Sign Up");
         reg.addActionListener(e -> {
             try {
-                frame.setVisible(false);
+                frame.dispose();
                 new SignUp();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -68,11 +69,7 @@ public class MainMenu extends JFrame {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new MainMenu();
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
-
 

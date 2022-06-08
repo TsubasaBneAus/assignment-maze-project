@@ -4,8 +4,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 
 /**
@@ -18,7 +23,14 @@ public class ExportImage extends JPanel {
     private final int[][] mazeArray;
     private final File importedImage1;
     private final String mazeName;
+    private final String email;
     private BufferedImage importedImage2 = null;
+    private BufferedImage generatedImage;
+    private Connection connection;
+    private static final String INSERT_IMAGES = "INSERT INTO MazeImages (email, mazeImage) VALUES (?, ?);";
+    private PreparedStatement addImages;
+    private ByteArrayOutputStream baos;
+    byte[] imageData;
 
     /**
      * The constructor for this "ExportImage" class
@@ -28,12 +40,13 @@ public class ExportImage extends JPanel {
      * @param mazeArray      The array representing the structure of the generated maze
      * @param importedImage1 The image file to insert into the maze
      */
-    public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1, String mazeName) {
+    public ExportImage(int rows, int columns, int[][] mazeArray, File importedImage1, String mazeName, String email) {
         this.rows = rows;
         this.columns = columns;
         this.mazeArray = mazeArray;
         this.importedImage1 = importedImage1;
         this.mazeName = mazeName;
+        this.email = email;
         saveImage();
     }
 
@@ -102,6 +115,16 @@ public class ExportImage extends JPanel {
             }
             g.dispose();
             ImageIO.write(exportedImage, "jpg", new File(mazeName + ".jpg"));
+            generatedImage = ImageIO.read(new File(mazeName + ".jpg"));
+            baos = new ByteArrayOutputStream();
+            ImageIO.write(generatedImage, "jpg", baos);
+            imageData = baos.toByteArray();
+            connection = DBConnection.getInstance();
+            addImages = connection.prepareStatement(INSERT_IMAGES);
+            addImages.setString(1, email);
+            addImages.setBytes(2, imageData);
+            addImages.executeUpdate();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

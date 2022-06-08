@@ -21,18 +21,16 @@ public class DBConnection {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream("C:\\Users\\User\\IdeaProjects\\Maze-project\\src\\guiExpoloration\\guiExpoloration\\db.props");
+            in = new FileInputStream("./db.props");
             props.load(in);
             in.close();
 
-            // specify the data source, username and password
             String url = props.getProperty("jdbc.url");
-//            String username = props.getProperty("jdbc.username");
-//            String password = props.getProperty("jdbc.password");
+            String username = props.getProperty("jdbc.username");
+            String password = props.getProperty("jdbc.password");
             String schema = props.getProperty("jdbc.schema");
 
-            // get a connection
-            instance = DriverManager.getConnection(url + "/" + schema);
+            instance = DriverManager.getConnection(url + "/" + schema, username, password);
         } catch (SQLException sqle) {
             System.err.println(sqle);
         } catch (FileNotFoundException fnfe) {
@@ -44,7 +42,6 @@ public class DBConnection {
 
     /**
      * The method for provides global access to the singleton instance of the UrlSet.
-     *
      * @return "instance"
      */
     public static Connection getInstance() {

@@ -19,11 +19,13 @@ public class MazeGUI extends JFrame  {
     private static final JToggleButton buttonStart = new JToggleButton("Select the starting block");
     private static final JToggleButton buttonEnd = new JToggleButton("Select the ending block");
     private static final JToggleButton buttonImageLocation = new JToggleButton("Select a block to locate an image");
+    private static String email;
 
     /**
      * The constructor of this "MazeGUI" class
      */
-    public MazeGUI() {
+    public MazeGUI(String email) {
+        this.email = email;
         JFrame frame = new JFrame("Maze Builder");
         frame.setSize(1440,1000);
         JPanel panelOnTheLeft = new JPanel();
@@ -238,7 +240,7 @@ public class MazeGUI extends JFrame  {
             int[][] currentMazeArray = (int[][]) arrayForDifferentDataTypes[2];
             saveButton.addActionListener(e2 -> {
                 String textName = inputName.getText();
-                new ExportImage(currentRows, currentColumns, currentMazeArray, imageFile, textName);
+                new ExportImage(currentRows, currentColumns, currentMazeArray, imageFile, textName, email);
                 exportFrame.dispose();
             });
 
@@ -362,6 +364,5 @@ public class MazeGUI extends JFrame  {
      */
     public static void main(String[] args) {
         new MainMenu();
-        new MazeGUI();
     }
 }
