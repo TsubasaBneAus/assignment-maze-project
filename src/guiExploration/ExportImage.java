@@ -124,7 +124,6 @@ public class ExportImage extends JPanel {
             addImages.setString(1, email);
             addImages.setBytes(2, imageData);
             addImages.executeUpdate();
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
