@@ -333,9 +333,11 @@ public class MazeGUI extends JFrame  {
                         if (currentColor == Color.GREEN) {
                             currentButton.setBackground(Color.WHITE);
                             mazeArray[currentRow][currentColumn] = 0;
+
                         } else {
                             currentButton.setBackground(Color.GREEN);
                             mazeArray[currentRow][currentColumn] = 2;
+                            buttonStart.setSelected(false);
                         }
                     } else if (buttonEnd.isSelected()) {
                         if (currentColor == Color.RED) {
@@ -344,6 +346,8 @@ public class MazeGUI extends JFrame  {
                         } else {
                             currentButton.setBackground(Color.RED);
                             mazeArray[currentRow][currentColumn] = 3;
+                            buttonEnd.setSelected(false
+                            );
                         }
                     } else if (currentColor == Color.BLACK) {
                         currentButton.setBackground(Color.WHITE);
@@ -363,6 +367,6 @@ public class MazeGUI extends JFrame  {
      * The main method for this application
      */
     public static void main(String[] args) {
-        new MainMenu();
+            new MainMenu();
     }
 }
